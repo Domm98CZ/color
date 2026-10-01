@@ -7,6 +7,25 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Numeric behaviour is part of compatibility: any change of computed values is listed under
 **Numeric changes**, together with the new `AlgorithmId` revision.
 
+## [0.2.0] - 2026-10-01
+
+### Added
+
+- `Contrast\ContrastAdjuster`: moves a color along the lightness axis of a `LightnessModel` (hue
+  and chroma kept) until a `ContrastAlgorithm` reaches a numeric target, every candidate mapped
+  into sRGB and quantised to 8 bits; `adjustForeground()` and `adjustBackground()` return a
+  `ContrastAdjustment` (the adjusted color, its measurement, `reachable`, the lightness change, the
+  gamut mapping and the search identity `contrast-lightness-search@r1`). An unreachable target is
+  a result with the new `WarningCode::ContrastTargetUnreachable`, not an exception.
+- Fluent `readableOn($background, $target)` and `readableBehind($foreground, $target)` on
+  `FluentColor`, delegating to `ContrastAdjuster` with the configured contrast, lightness model and
+  mapper; `Fluent\Exception\MappingRequiredException` when output mapping is switched off.
+- `examples/readable-colors.php`.
+
+### Numeric changes
+
+- None.
+
 ## [0.1.0] - 2026-10-01
 
 Initial release.

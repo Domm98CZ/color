@@ -7,7 +7,9 @@ namespace Domm98CZ\Color\Fluent;
 use Domm98CZ\Color\Color;
 use Domm98CZ\Color\Contrast\Contract\ContrastAlgorithm;
 use Domm98CZ\Color\Contrast\Contrast;
+use Domm98CZ\Color\Contrast\ContrastAdjuster;
 use Domm98CZ\Color\Contrast\Result\ContrastMeasurement;
+use Domm98CZ\Color\Fluent\Exception\MappingRequiredException;
 use Domm98CZ\Color\Fluent\Result\FluentStep;
 use Domm98CZ\Color\Fluent\Result\FluentTrace;
 use Domm98CZ\Color\Harmony\Contract\HueWheel;
@@ -285,6 +287,38 @@ abstract readonly class FluentColor implements \Stringable
     }
 
     /**
+     * This color as text on $background, moved along the configured lightness model (hue and
+     * chroma kept) until the configured contrast reaches $target
+     * ({@see ContrastAdjuster::adjustForeground()}); the result is in sRGB. An unreachable target
+     * leaves the best candidate with a `contrast-target-unreachable` warning in the step.
+     *
+     * @throws MappingRequiredException when output mapping is switched off
+     */
+    public function readableOn(Color|string|self $background, float $target): self
+    {
+        $fixed = $this->output(self::toColorValue($background));
+        $adjuster = $this->adjuster('readableOn');
+        $result = $adjuster->adjustForeground($this->color, $fixed, $target);
+
+        return $this->then('readableOn', ['on' => $fixed->toCss(), 'target' => $target] + $this->adjusting(), $result->color, $adjuster->id(), $result->diagnostics);
+    }
+
+    /**
+     * This color as the background behind $foreground ({@see ContrastAdjuster::adjustBackground()});
+     * otherwise as {@see readableOn()}.
+     *
+     * @throws MappingRequiredException when output mapping is switched off
+     */
+    public function readableBehind(Color|string|self $foreground, float $target): self
+    {
+        $fixed = $this->output(self::toColorValue($foreground));
+        $adjuster = $this->adjuster('readableBehind');
+        $result = $adjuster->adjustBackground($this->color, $fixed, $target);
+
+        return $this->then('readableBehind', ['behind' => $fixed->toCss(), 'target' => $target] + $this->adjusting(), $result->color, $adjuster->id(), $result->diagnostics);
+    }
+
+    /**
      * WCAG 2 relative luminance of the output color (0 black … 1 white); WCAG defines it, so it is
      * not configurable.
      */
@@ -398,6 +432,28 @@ abstract readonly class FluentColor implements \Stringable
         $mapper = $this->config->outputMapper;
 
         return $mapper === null ? $color->to($this->config->outputSpace) : $mapper->map($color, $this->config->outputSpace)->color;
+    }
+
+    /**
+     * @throws MappingRequiredException
+     */
+    private function adjuster(string $method): ContrastAdjuster
+    {
+        return new ContrastAdjuster($this->config->contrast, $this->config->lightness, $this->config->outputMapper ?? throw MappingRequiredException::for($method));
+    }
+
+    /**
+     * The configuration an adjustment step used; only called after {@see adjuster()} succeeded.
+     *
+     * @return array{contrast: string, lightness: string, mapper: string}
+     */
+    private function adjusting(): array
+    {
+        return [
+            'contrast' => $this->config->contrast->id()->identifier(),
+            'lightness' => $this->config->lightness->value,
+            'mapper' => $this->config->outputMapper?->id()->identifier() ?? '',
+        ];
     }
 
     private static function toColorValue(Color|string|self $color): Color

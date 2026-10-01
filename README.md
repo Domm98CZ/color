@@ -15,8 +15,9 @@ composer require domm98cz/color
 The library is deliberately small: a `Color` value, conversions, notation, differences, contrast,
 gamut mapping, harmonies and scales for the web. It does not do ICC profiles or print/CMYK, color
 appearance models or HDR, color vision deficiency simulation, WCAG success-criteria evaluation
-(only the contrast ratio), palette optimization, or measurements and spectra. A feature request
-outside this list needs an issue first, not a PR.
+(only the contrast ratio), palette optimization (changing a whole palette to meet constraints;
+adjusting one color to a contrast target is included), or measurements and spectra. A feature
+request outside this list needs an issue first, not a PR.
 
 ## Quick start
 
@@ -112,6 +113,24 @@ Contrast::wcag2()->measure(Color::fromHex('#777'), Color::fromHex('#fff'))->valu
 ```
 
 The ratio is never rounded: `#777` on white is 4.478, which fails the 4.5:1 threshold that a rounded "4.5" would pass. Only the ratio is computed; WCAG success criteria (text size, UI components) are the caller's decision. A translucent background throws `MissingBackdropException` until you say what is behind it (`LayerStack::of($overlay)->over($page)`). The fluent `isDark()` uses the same WCAG relative luminance with a 0.179 threshold, the point at which black and white text reach equal contrast.
+
+To get a color that reaches a ratio, move it along its lightness instead of guessing:
+
+```php
+use Domm98CZ\Color\Contrast\ContrastAdjuster;
+use Domm98CZ\Color\Operation\LightnessModel;
+
+$adjuster = new ContrastAdjuster(Contrast::wcag2(), LightnessModel::OklchL);
+$text = $adjuster->adjustForeground(Color::fromHex('#3366cc'), Color::fromHex('#fff'), 7.0);
+
+$text->color->toHex();        // "#2253b8" (same hue, darker)
+$text->contrast->value;       // 7.0059382501719
+$text->reachable;             // true
+
+(new HexColor('#3366cc'))->readableOn('#fff', 7.0)->toHex();  // "#2253b8" in a chain; readableBehind() adjusts a background
+```
+
+Hue and chroma are kept and only the lightness moves, in the model you name (OKLCh here); every candidate is mapped into sRGB and quantized to 8 bits, so the ratio reported is the ratio of the hex you write out. The passing candidate nearest to the input wins. A target no lightness can reach is not an error: the best candidate comes back with `reachable = false` and a `contrast-target-unreachable` warning (`#3366cc` on `#767676` cannot reach 7:1 in either direction). The target is a plain number; what 4.5, 7 or 3 mean for your text size remains your decision.
 
 ## Gamut mapping
 

@@ -1,0 +1,13 @@
+#3366cc on white at 4.5:1 -> #3366cc   5.3664:1  L +0.000
+#ffcc00 on white at 4.5:1 -> #957100   4.5259:1  L -0.297  (gamut mapped)
+#916300 on white at 4.5:1 -> #916300   5.2649:1  L +0.000
+#3366cc on white at 7.0:1 -> #2253b8   7.0059:1  L -0.060
+#ffcc00 on white at 7.0:1 -> #715400   7.0701:1  L -0.402  (gamut mapped)
+#916300 on white at 7.0:1 -> #7c4f00   7.0579:1  L -0.068  (gamut mapped)
+
+#1a1a1a on a blue tint: #eaf6ff  15.85:1
+
+#3366cc on #767676 at 7:1 -> #000000  4.62:1  reachable: no
+warning: contrast-target-unreachable
+
+fluent: #2253b8

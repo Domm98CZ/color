@@ -180,6 +180,12 @@ Contrast\Contract\ContrastAlgorithm: interface
   method measure(Color $foreground, Color|Compositing\LayerStack $background): Contrast\Result\ContrastMeasurement
 Contrast\Contrast: final class
   method static wcag2(Contrast\Algorithm\Wcag2LuminanceThreshold $threshold = Contrast\Algorithm\Wcag2LuminanceThreshold::Current): Contrast\Algorithm\Wcag2ContrastRatio
+Contrast\ContrastAdjuster: final readonly class
+  const PRECISION = 1.0E-6
+  method __construct(promoted Contrast\Contract\ContrastAlgorithm $algorithm, promoted Operation\LightnessModel $lightness, promoted Gamut\Contract\GamutMapper $mapper = new Gamut\Algorithm\CssColor4BinarySearch(), promoted ?Operation\Quantizer $quantizer = new Operation\Quantizer())
+  method adjustBackground(Color $background, Color $foreground, float $target): Contrast\Result\ContrastAdjustment
+  method adjustForeground(Color $foreground, Color|Compositing\LayerStack $background, float $target): Contrast\Result\ContrastAdjustment
+  method id(): Provenance\AlgorithmId
 Contrast\Exception\ColorOutsideSrgbException: final class
   extends Exception\DomainException
   implements Exception\ColorException
@@ -192,6 +198,18 @@ Contrast\Exception\MissingBackdropException: final class
   extends Exception\InsufficientDataException
   implements Exception\ColorException
   method static forAlpha(float $alpha): Contrast\Exception\MissingBackdropException
+Contrast\Result\ContrastAdjustment: final readonly class
+  property readonly Color $color
+  property readonly Color $original
+  property readonly Contrast\Result\ContrastMeasurement $contrast
+  property readonly float $target
+  property readonly bool $reachable
+  property readonly Operation\LightnessModel $lightness
+  property readonly float $lightnessChange
+  property readonly Gamut\Result\GamutMappingResult $mapping
+  property readonly Provenance\AlgorithmId $algorithm
+  property readonly Provenance\Diagnostics $diagnostics
+  method __construct(promoted Color $color, promoted Color $original, promoted Contrast\Result\ContrastMeasurement $contrast, promoted float $target, promoted bool $reachable, promoted Operation\LightnessModel $lightness, promoted float $lightnessChange, promoted Gamut\Result\GamutMappingResult $mapping, promoted Provenance\AlgorithmId $algorithm, promoted Provenance\Diagnostics $diagnostics)
 Contrast\Result\ContrastMeasurement: final readonly class
   property readonly float $value
   property readonly Provenance\AlgorithmId $algorithm
@@ -262,6 +280,10 @@ Fluent\ChainedColor: final readonly class
 Fluent\CssColor: final readonly class
   extends Fluent\FluentColor
   method __construct(string $css, ?Fluent\FluentConfig $config = NULL)
+Fluent\Exception\MappingRequiredException: final class
+  extends Exception\ConfigurationException
+  implements Exception\ColorException
+  method static for(string $method): Fluent\Exception\MappingRequiredException
 Fluent\Fluent: final readonly class
   method __construct(promoted Fluent\FluentConfig $config)
   method color(Color|string $color): Fluent\FluentColor
@@ -282,6 +304,8 @@ Fluent\FluentColor: abstract readonly class
   method luminance(): float
   method mix(Color|Fluent\FluentColor|string $other, float $weight = 0.5, ?Operation\Mixer $mixer = NULL): Fluent\FluentColor
   method static of(Color $color, ?Fluent\FluentConfig $config = NULL): Fluent\FluentColor
+  method readableBehind(Color|Fluent\FluentColor|string $foreground, float $target): Fluent\FluentColor
+  method readableOn(Color|Fluent\FluentColor|string $background, float $target): Fluent\FluentColor
   method rotateHue(float $degrees, ?Operation\HueModel $model = NULL): Fluent\FluentColor
   method scaleChroma(float $scale, ?Operation\ChromaModel $model = NULL): Fluent\FluentColor
   method shade(float $amount, ?Operation\Mixer $mixer = NULL): Fluent\FluentColor
@@ -819,6 +843,7 @@ Provenance\Warning: final readonly class
 Provenance\WarningCode: enum: string
   case AlphaIgnored = 'alpha-ignored'
   case HueUndefined = 'hue-undefined'
+  case ContrastTargetUnreachable = 'contrast-target-unreachable'
   method description(): string
 Space\Channel: final readonly class
   property readonly string $name

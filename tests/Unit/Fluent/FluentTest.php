@@ -7,7 +7,9 @@ namespace Domm98CZ\Color\Tests\Unit\Fluent;
 use Domm98CZ\Color\Color;
 use Domm98CZ\Color\Contrast\Algorithm\Wcag2LuminanceThreshold;
 use Domm98CZ\Color\Contrast\Contrast;
+use Domm98CZ\Color\Contrast\ContrastAdjuster;
 use Domm98CZ\Color\Contrast\Exception\ColorOutsideSrgbException;
+use Domm98CZ\Color\Fluent\Exception\MappingRequiredException;
 use Domm98CZ\Color\Fluent\Fluent;
 use Domm98CZ\Color\Fluent\FluentColor;
 use Domm98CZ\Color\Fluent\FluentConfig;
@@ -279,5 +281,49 @@ final class FluentTest extends TestCase
         self::assertEquals(Harmony::of(Color::fromHex(self::BASE), HueWheels::oklch(), HarmonyScheme::triadic(), ColorSpaces::srgb()), $chain->harmony(HarmonyScheme::triadic()));
         self::assertEquals(Harmony::of(Color::fromHex(self::BASE), HueWheels::ryb(), HarmonyScheme::square(), ColorSpaces::srgb()), $chain->harmony(HarmonyScheme::square(), HueWheels::ryb()));
         self::assertSame('display-p3', (new Fluent(FluentConfig::defaults()->withOutputSpace(ColorSpaces::displayP3())))->color(self::BASE)->harmony(HarmonyScheme::triadic())->gamut->id());
+    }
+
+    public function testReadableOnAndBehindDelegateToTheAdjuster(): void
+    {
+        $fluent = Fluent::create();
+        $adjuster = new ContrastAdjuster(Contrast::wcag2(), LightnessModel::OklchL, GamutMappers::cssColor4());
+        $white = Color::fromHex('#ffffff');
+
+        $on = $fluent->color(self::BASE)->readableOn('#fff', 7.0);
+        $expected = $adjuster->adjustForeground(Color::fromHex(self::BASE), $white, 7.0);
+        self::assertTrue($on->color()->equals($expected->color));
+        self::assertGreaterThanOrEqual(7.0, $on->contrastWith('#fff')->value);
+        $step = $on->trace()->steps[1];
+        self::assertSame('readableOn', $step->operation);
+        self::assertSame(['on' => 'rgb(255, 255, 255)', 'target' => 7.0, 'contrast' => 'wcag2-contrast-ratio[threshold=0.04045]@r1', 'lightness' => 'oklch-l', 'mapper' => 'css-color-4-binary-search-local-minde@r1'], $step->parameters);
+        self::assertSame($adjuster->id()->identifier(), $step->algorithm?->identifier());
+        self::assertTrue($step->diagnostics->isEmpty());
+
+        $behind = $fluent->color(self::BASE)->readableBehind('#767676', 7.0);
+        self::assertTrue($behind->color()->equals($adjuster->adjustBackground(Color::fromHex(self::BASE), Color::fromHex('#767676'), 7.0)->color));
+        self::assertSame('readableBehind', $behind->trace()->steps[1]->operation);
+        self::assertSame('rgb(118, 118, 118)', $behind->trace()->steps[1]->parameters['behind']);
+        self::assertTrue($behind->trace()->steps[1]->diagnostics->hasWarning(WarningCode::ContrastTargetUnreachable), 'an unreachable target is a warning in the step, not an exception');
+
+        $hsl = new Fluent(FluentConfig::defaults()->withLightness(LightnessModel::HslL));
+        self::assertTrue($hsl->color(self::BASE)->readableOn($white, 7.0)->color()->equals((new ContrastAdjuster(Contrast::wcag2(), LightnessModel::HslL))->adjustForeground(Color::fromHex(self::BASE), $white, 7.0)->color), 'the configured lightness model is used');
+        self::assertTrue($fluent->color(self::BASE)->readableOn($fluent->color('#fff'), 7.0)->color()->equals($expected->color), 'a chain is accepted as the fixed side');
+    }
+
+    public function testReadableOnWithAnotherOutputSpace(): void
+    {
+        $p3 = (new Fluent(FluentConfig::defaults()->withOutputSpace(ColorSpaces::displayP3())))->color(self::BASE)->readableOn('#fff', 7.0);
+
+        self::assertSame('srgb', $p3->color()->space()->id(), 'the adjuster works in sRGB, where WCAG 2 measures');
+        self::assertSame('display-p3', $p3->toColor()->space()->id());
+        self::assertGreaterThanOrEqual(7.0, $p3->contrastWith('#fff')->value);
+    }
+
+    public function testReadableOnNeedsAMapper(): void
+    {
+        $this->expectException(MappingRequiredException::class);
+        $this->expectExceptionMessage('readableOn()');
+
+        (new Fluent(FluentConfig::defaults()->withOutputMapping(null)))->color(self::BASE)->readableOn('#fff', 4.5);
     }
 }
