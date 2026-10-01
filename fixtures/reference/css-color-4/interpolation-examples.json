@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "id": "css-color-4-interpolation-examples",
+    "source": "CSS Color Module Level 4, examples in § 13.3 (missing components), § 13.4 (alpha) and § 13.5 (hue interpolation)",
+    "edition": "W3C Candidate Recommendation Draft, 26 September 2026",
+    "url": "https://www.w3.org/TR/css-color-4/",
+    "retrieved": "2026-09-28",
+    "license": "W3C Software and Document License (examples transcribed from the specification text)",
+    "notes": "interpolate: 'from' and 'to' interpolated in 'space' with 'hue' at 'progress'. convert: 'from' converted to 'space' with missing components carried forward. Expected coordinates are in the units of the space (null = missing). The § 13.3 carry-forward examples give the colors 'to be interpolated', checked at progress 0 or 1. Each case has 'abs': half a unit of the last printed digit, unless a note says otherwise.",
+    "tolerance": {
+      "abs": 0.0005,
+      "rationale": "Default for cases without 'abs': the examples print 3 decimals."
+    }
+  },
+  "cases": [
+    {"section": "13.4", "kind": "interpolate", "space": "srgb", "hue": "shorter", "from": "rgb(24% 12% 98% / 0.4)", "to": "rgb(62% 26% 64% / 0.6)", "progress": 0.5, "expected": [0.468, 0.204, 0.776], "alpha": 0.5, "abs": 5e-05},
+    {"section": "13.4", "kind": "interpolate", "space": "lab", "hue": "shorter", "from": "rgb(76% 62% 03% / 0.4)", "to": "color(display-p3 0.84 0.19 0.72 / 0.6)", "progress": 0.5, "expected": [58.873, 51.552, 7.108], "alpha": 0.5, "abs": 0.02, "note": "The example converts the inputs to lab(66.927% 4.873 68.622) and lab(53.503% 82.672 -33.901); the conversion of the current CSS Color 4 sample code gives lab(53.504318 82.664556 -33.887015) for the second one, 0.014 away in b. The tolerance covers the difference of the stale intermediate values, not an error of the interpolation."},
+    {"section": "13.4", "kind": "interpolate", "space": "lch", "hue": "shorter", "from": "rgb(76% 62% 03% / 0.4)", "to": "color(display-p3 0.84 0.19 0.72 / 0.6)", "progress": 0.5, "expected": [58.873, 81.126, 31.82], "alpha": 0.5, "abs": 0.02, "note": "Same inputs as the Lab example (lch(53.5% 89.35 337.7) printed for the second color; the current conversion gives 89.3407 337.7096)."},
+    {"section": "13.5.1", "kind": "interpolate", "space": "oklch", "hue": "shorter", "from": "oklch(0.6 0.24 30)", "to": "oklch(0.8 0.15 90)", "progress": 0.5, "expected": [0.7, 0.195, 60], "alpha": 1, "abs": 1e-12},
+    {"section": "13.5.2", "kind": "interpolate", "space": "oklch", "hue": "longer", "from": "oklch(0.6 0.24 30)", "to": "oklch(0.8 0.15 90)", "progress": 0.5, "expected": [0.7, 0.195, 240], "alpha": 1, "abs": 1e-12},
+    {"section": "13.5.3", "kind": "interpolate", "space": "oklch", "hue": "increasing", "from": "oklch(0.5 0.1 30)", "to": "oklch(0.7 0.1 190)", "progress": 0.5, "expected": [0.6, 0.1, 110], "alpha": 1, "abs": 1e-12},
+    {"section": "13.5.3", "kind": "interpolate", "space": "oklch", "hue": "increasing", "from": "oklch(0.5 0.1 30)", "to": "oklch(0.7 0.1 230)", "progress": 0.5, "expected": [0.6, 0.1, 130], "alpha": 1, "abs": 1e-12},
+    {"section": "13.5.4", "kind": "interpolate", "space": "oklch", "hue": "decreasing", "from": "oklch(0.5 0.1 30)", "to": "oklch(0.7 0.1 190)", "progress": 0.5, "expected": [0.6, 0.1, 290], "alpha": 1, "abs": 1e-12},
+    {"section": "13.5.4", "kind": "interpolate", "space": "oklch", "hue": "decreasing", "from": "oklch(0.5 0.1 30)", "to": "oklch(0.7 0.1 230)", "progress": 0.5, "expected": [0.6, 0.1, 310], "alpha": 1, "abs": 1e-12},
+    {"section": "13.3", "kind": "convert", "from": "lab(50% none none)", "space": "lch", "expected": [50, null, null], "alpha": 1, "abs": 1e-12},
+    {"section": "13.3", "kind": "convert", "from": "rgb(none none none / 50%)", "space": "oklab", "expected": [null, null, null], "alpha": 0.5, "abs": 1e-12},
+    {"section": "13.3", "kind": "interpolate", "space": "oklch", "hue": "shorter", "from": "lch(50% 0.02 none)", "to": "color(display-p3 0.7 0.5 none)", "progress": 0, "expected": [0.56897, 0.0001, 78.748], "alpha": 1, "abs": 0.0005, "note": "The first color converts to oklch(56.897% 0.0001 0) but its missing hue is carried forward and filled from the second color, oklch(63.612% 0.1522 78.748). Printed with 3 to 5 decimals (hue 78.748): tolerance half a unit of the coarsest printed digit."},
+    {"section": "13.3", "kind": "interpolate", "space": "oklch", "hue": "shorter", "from": "lch(50% 0.02 none)", "to": "color(display-p3 0.7 0.5 none)", "progress": 1, "expected": [0.63612, 0.1522, 78.748], "alpha": 1, "abs": 0.0005, "note": "The missing blue of the second color has no analog in OKLCh and becomes 0 in the conversion. Printed with 3 to 5 decimals (hue 78.748): tolerance half a unit of the coarsest printed digit."},
+    {"section": "13.3", "kind": "interpolate", "space": "oklch", "hue": "shorter", "from": "oklch(78.3% 0.108 326.5)", "to": "oklch(39.2% 0.4 none)", "progress": 1, "expected": [0.392, 0.4, 326.5], "alpha": 1, "abs": 1e-12},
+    {"section": "13.3", "kind": "interpolate", "space": "oklch", "hue": "shorter", "from": "oklch(0.783 0.108 326.5 / 0.5)", "to": "oklch(0.392 0.4 0 / none)", "progress": 1, "expected": [0.392, 0.4, 0], "alpha": 0.5, "abs": 1e-12}
+  ]
+}

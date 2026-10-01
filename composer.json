@@ -1,0 +1,87 @@
+{
+    "name": "domm98cz/color",
+    "description": "Small PHP library for colors: create from hex, rgb, hsl or CSS, convert, tint and shade, harmonies, contrast, CSS output.",
+    "type": "library",
+    "homepage": "https://Domm.cz",
+    "license": "MIT",
+    "keywords": [
+        "color",
+        "colour",
+        "color-space",
+        "oklch",
+        "cielab",
+        "wcag",
+        "contrast",
+        "palette",
+        "css-color"
+    ],
+    "authors": [
+        {
+            "name": "Dominik Procházka",
+            "email": "domm98cz@gmail.com",
+            "homepage": "https://Domm.cz",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "domm98cz@gmail.com",
+        "docs": "https://github.com/Domm98CZ/color/blob/main/README.md"
+    },
+    "require": {
+        "php": ">=8.3 <8.6"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/phpstan": "^2.2",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^12.5.36"
+    },
+    "autoload": {
+        "psr-4": {
+            "Domm98CZ\\Color\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Domm98CZ\\Color\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit --testsuite unit,conformance,property,examples",
+        "test:unit": "phpunit --testsuite unit",
+        "test:conformance": "phpunit --testsuite conformance",
+        "test:property": "phpunit --testsuite property",
+        "test:examples": "phpunit --testsuite examples",
+        "phpstan": "phpstan analyse --memory-limit=1G",
+        "cs": "php-cs-fixer check --diff",
+        "cs:fix": "php-cs-fixer fix",
+        "bench": "@php tools/benchmark.php",
+        "api:snapshot": "@php tools/api/snapshot.php",
+        "check": [
+            "@composer validate --strict",
+            "@cs",
+            "@phpstan",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run all test suites (unit, conformance, property, examples).",
+        "test:unit": "Run unit tests.",
+        "test:conformance": "Run conformance tests against reference data.",
+        "test:property": "Run seeded property-based tests.",
+        "test:examples": "Run the scripts in examples/ and compare their output.",
+        "phpstan": "Run PHPStan at level max with strict and deprecation rules.",
+        "cs": "Check coding standard (PER-CS 2.0) without changing files.",
+        "cs:fix": "Fix coding standard violations.",
+        "bench": "Time common conversions and color differences (tools/benchmark.php, no dependencies).",
+        "api:snapshot": "Regenerate the public API snapshot after an intended API change.",
+        "check": "Run everything a contributor should run before submitting a change."
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

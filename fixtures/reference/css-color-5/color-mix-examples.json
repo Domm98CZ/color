@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "id": "css-color-5-color-mix-and-relative-examples",
+    "source": "CSS Color Module Level 5, examples in § 3.2–3.5 (color-mix()) and § 4.2–4.10 (relative colors)",
+    "edition": "W3C Working Draft, 13 September 2026",
+    "url": "https://www.w3.org/TR/2026/WD-css-color-5-20260913/",
+    "retrieved": "2026-09-28",
+    "license": "W3C Software and Document License (examples transcribed from the specification text)",
+    "notes": "input is parsed with Color::parse(); the result must be in 'space' with the expected coordinates (null = missing) and alpha. 'compare_in' names the space the example states its result in when it differs from the result space (compared after conversion). Each case has 'abs': half a unit of the coarsest printed digit, or, where a note says so, the distance between the example's intermediate values (computed with an earlier revision of the conversion code) and the current CSS Color 4 conversion. Not transcribed: § 3.3 'teal 0%, olive 0%' (its lightness arithmetic 54.31% × 0.5 + 58.07% × 0.5 = 35.0395% is wrong; the result is 56.19%); examples that use calc(); the § 4.4 lightseagreen HSL example (printed as whole percentages).",
+    "tolerance": {
+      "abs": 0.0005,
+      "rationale": "Default for cases without 'abs'."
+    }
+  },
+  "cases": [
+    {"section": "3.2", "input": "color-mix(in lch, purple 50%, plum 50%)", "space": "lch", "expected": [51.51, 52.21, 325.8], "alpha": 1, "abs": 0.05},
+    {"section": "3.2", "input": "color-mix(in lch, purple 80%, plum 80%)", "space": "lch", "expected": [51.51, 52.21, 325.8], "alpha": 1, "abs": 0.05},
+    {"section": "3.2", "input": "color-mix(in lch, plum, purple)", "space": "lch", "expected": [51.51, 52.21, 325.8], "alpha": 1, "abs": 0.05},
+    {"section": "3.2", "input": "color-mix(in lch, purple 30%, plum 30%)", "space": "lch", "expected": [51.51, 52.21, 325.8], "alpha": 0.6, "abs": 0.05},
+    {"section": "3.2", "input": "color-mix(in lch, purple 30%, plum 30%)", "space": "lch", "compare_in": "srgb", "expected": [0.6851, 0.3601, 0.6829], "alpha": 0.6, "abs": 5e-05},
+    {"section": "3.3", "input": "color-mix(in lch, peru 40%, palegoldenrod)", "space": "lch", "expected": [79.7256, 40.448, 84.771], "alpha": 1, "abs": 0.01, "note": "The example mixes the rounded LCh values of peru and palegoldenrod (3 decimals)."},
+    {"section": "3.3", "input": "color-mix(in lch, teal 65%, olive)", "space": "lch", "expected": [49.4429, 40.483, 162.5452], "alpha": 1, "abs": 0.005, "note": "The example was computed with an earlier revision of the conversion code: it gives teal as lch(47.9855% 31.6903 196.4524); the current conversion gives lch(47.985827 31.685066 196.454789), up to 0.005 away, which moves the mix by up to 0.003 (0.0002 in sRGB)."},
+    {"section": "3.3", "input": "color-mix(in lch, teal 65%, olive)", "space": "lch", "compare_in": "srgb", "expected": [0.077377, 0.52573, 0.373213], "alpha": 1, "abs": 0.0005, "note": "The example was computed with an earlier revision of the conversion code: it gives teal as lch(47.9855% 31.6903 196.4524); the current conversion gives lch(47.985827 31.685066 196.454789), up to 0.005 away, which moves the mix by up to 0.003 (0.0002 in sRGB)."},
+    {"section": "3.3", "input": "color-mix(in oklab, teal, olive, blue)", "space": "oklab", "expected": [0.5253, -0.055, -0.072], "alpha": 1, "abs": 0.0001, "note": "Mixed from OKLab values rounded to 4 decimals (L to 2 decimals of a percentage)."},
+    {"section": "3.4", "input": "color-mix(in lch, white, black)", "space": "lch", "expected": [50, 0, null], "alpha": 1, "abs": 0.0005},
+    {"section": "3.4", "input": "color-mix(in xyz, white, black)", "space": "xyz-d65", "compare_in": "lch", "expected": [76, 0, null], "alpha": 1, "abs": 0.5, "note": "Printed as lch(76% 0 none), whole percent."},
+    {"section": "3.4", "input": "color-mix(in srgb, white, black)", "space": "srgb", "compare_in": "lch", "expected": [53.4, 0, null], "alpha": 1, "abs": 0.05},
+    {"section": "3.4", "input": "color-mix(in lch, white, blue)", "space": "lch", "expected": [64.7841, 65.6008, 301.364], "alpha": 1, "abs": 0.0005},
+    {"section": "3.4", "input": "color-mix(in oklch, white, blue)", "space": "oklch", "expected": [0.72601, 0.15661, 264.052], "alpha": 1, "abs": 0.0005, "note": "Printed as oklch(72.601% 0.15661 264.052): the hue has 3 decimals."},
+    {"section": "3.4", "input": "color-mix(in srgb, white, blue)", "space": "srgb", "expected": [0.5, 0.5, 1], "alpha": 1, "abs": 1e-12},
+    {"section": "3.4", "input": "color-mix(in xyz-d50, rgb(82.02% 30.21% 35.02%) 75.23%, rgb(5.64% 55.94% 85.31%))", "space": "xyz-d50", "expected": [0.29306, 0.21074, 0.19614], "alpha": 1, "abs": 0.0001, "note": "Mixed from XYZ values rounded to 4 decimals (up to 5e-5 each)."},
+    {"section": "3.4", "input": "color-mix(in xyz-d50, rgb(82.02% 30.21% 35.02%) 75.23%, rgb(5.64% 55.94% 85.31%))", "space": "xyz-d50", "compare_in": "srgb", "expected": [0.723, 0.38639, 0.53557], "alpha": 1, "abs": 0.0005, "note": "Derived from the rounded XYZ mix."},
+    {"section": "3.4", "input": "color-mix(in hsl, color(display-p3 0 1 0) 80%, yellow)", "space": "hsl", "expected": [114.3032, 261.5568, 30.2672], "alpha": 1, "abs": 0.005, "note": "The example was computed with an earlier revision of the conversion code: it gives color(display-p3 0 1 0) as hsl(127.879 301.946 25.334); the current conversion gives hsl(127.880288 301.951723 25.333034), up to 0.006 away in saturation (0.0046 after mixing)."},
+    {"section": "3.4", "input": "color-mix(in hsl, color(display-p3 0 1 0) 80%, yellow)", "space": "hsl", "compare_in": "srgb", "expected": [-0.3387, 1.0943, -0.48899], "alpha": 1, "abs": 5e-05},
+    {"section": "3.5", "input": "color-mix(in srgb, rgb(100% 0% 0% / 0.7) 25%, rgb(0% 100% 0% / 0.2))", "space": "srgb", "expected": [0.53846, 0.46154, 0], "alpha": 0.325, "abs": 5e-06},
+    {"section": "3.5", "input": "color-mix(in srgb, rgb(100% 0% 0% / 0.7) 20%, rgb(0% 100% 0% / 0.2) 60%)", "space": "srgb", "expected": [0.53846, 0.46154, 0], "alpha": 0.26, "abs": 5e-06},
+    {"section": "4.3", "input": "rgb(from indianred 255 g b)", "space": "srgb", "compare_in": "srgb", "expected": [1, 0.36078431372549, 0.36078431372549], "alpha": 1, "abs": 1e-12, "note": "rgb(255 92 92)"},
+    {"section": "4.3", "input": "rgb(from darkblue 16 32 b / 0.5)", "space": "srgb", "expected": [0.0627450980392157, 0.12549019607843137, 0.5450980392156862], "alpha": 0.5, "abs": 1e-12, "note": "rgb(16 32 139 / 0.5)"},
+    {"section": "4.2", "input": "color(from color(srgb 0 0 0 / 60%) srgb alpha 0.6 0.6 / 0.9)", "space": "srgb", "expected": [0.6, 0.6, 0.6], "alpha": 0.9, "abs": 1e-12},
+    {"section": "4.2", "input": "rgb(from rgb(0 0 0 / 60%) alpha 153 153 / 0.9)", "space": "srgb", "expected": [0.0023529411764705885, 0.6, 0.6], "alpha": 0.9, "abs": 1e-12, "note": "rgb(0.6 153 153 / 0.9): the alpha keyword is the number 0.6 in a 0–255 position."},
+    {"section": "4.2", "input": "oklch(from hsl(none 3% 50%) l c h)", "space": "oklch", "expected": [0.592, 0.009, null], "alpha": 1, "abs": 0.0005, "note": "The missing HSL hue is carried forward to the analogous OKLCh hue."},
+    {"section": "4.6", "input": "lab(from orchid l 0 0)", "space": "lab", "expected": [62.753, 0, 0], "alpha": 1, "abs": 0.0005},
+    {"section": "4.6", "input": "lab(from orchid l 0 0)", "space": "lab", "compare_in": "srgb", "expected": [0.59515, 0.59515, 0.59515], "alpha": 1, "abs": 5e-06},
+    {"section": "4.8", "input": "lch(from orchid l 0 h)", "space": "lch", "expected": [62.753, 0, 326.973], "alpha": 1, "abs": 0.005, "note": "The example was computed with an earlier revision of the conversion code: it gives the hue of orchid as 326.973; the current conversion gives 326.969092."},
+    {"section": "4.8", "input": "lch(from lch(from orchid l 0 h) l 30 h)", "space": "lch", "compare_in": "srgb", "expected": [0.7271, 0.53293, 0.71224], "alpha": 1, "abs": 5e-05, "note": "Converted from the rounded (and slightly stale, see the previous case) LCh values lch(62.753 30 326.973)."},
+    {"section": "4.8", "input": "lch(from lightseagreen l c h)", "space": "lch", "expected": [65.4937, 39.4484, 190.1013], "alpha": 1, "abs": 0.01, "note": "The example was computed with an earlier revision of the conversion code: it gives lch(65.4937 39.4484 190.1013); the current conversion gives lch(65.494097 39.441597 190.102553), 0.007 away in C."},
+    {"section": "4.8", "input": "lch(from lch(60% 90 320) l c 200)", "space": "lch", "compare_in": "srgb", "expected": [-0.6, 0.698, 0.772], "alpha": 1, "abs": 0.05, "note": "Printed as color(srgb -0.6 0.698 0.772): the red channel has one decimal."},
+    {"section": "4.9", "input": "oklch(from lch(60% 90 320) l c h)", "space": "oklch", "expected": [0.69012, 0.25077, 319.893], "alpha": 1, "abs": 0.0005, "note": "Printed as oklch(0.69012 0.25077 319.893): the hue has 3 decimals."},
+    {"section": "4.10", "input": "alpha(from oklch(60% 0.25 315 / 0.3) / 80%)", "space": "oklch", "expected": [0.6, 0.25, 315], "alpha": 0.8, "abs": 1e-12}
+  ]
+}

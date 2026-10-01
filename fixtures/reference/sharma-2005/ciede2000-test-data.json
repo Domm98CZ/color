@@ -1,0 +1,493 @@
+{
+ "meta": {
+  "id": "sharma-2005-ciede2000",
+  "source": "G. Sharma, W. Wu, E. N. Dalal: The CIEDE2000 Color-Difference Formula: Implementation Notes, Supplementary Test Data, and Mathematical Observations. Color Research & Application 30(1), 2005, Table 1 (file ciede2000testdata.txt)",
+  "edition": "doi:10.1002/col.20070; data file as published on the author's page",
+  "url": "https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/",
+  "retrieved": "2026-09-28",
+  "license": "Numerical test data published in the paper (Table 1) for verifying implementations; reproduced with citation. The author's page states no license for the data file (the permission note there concerns the MATLAB/Excel programs).",
+  "values_precision": "CIELAB inputs and ΔE00 given to 4 decimal places",
+  "tolerance": {
+   "abs": 5e-05,
+   "rationale": "The published ΔE00 values are rounded to 4 decimal places, so the maximum rounding error is 5e-5; a float64 implementation of the same equations differs from the exact value by < 1e-12."
+  }
+ },
+ "cases": [
+  {
+   "pair": 1,
+   "reference": [
+    50.0,
+    2.6772,
+    -79.7751
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -82.7485
+   ],
+   "expected": 2.0425
+  },
+  {
+   "pair": 2,
+   "reference": [
+    50.0,
+    3.1571,
+    -77.2803
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -82.7485
+   ],
+   "expected": 2.8615
+  },
+  {
+   "pair": 3,
+   "reference": [
+    50.0,
+    2.8361,
+    -74.02
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -82.7485
+   ],
+   "expected": 3.4412
+  },
+  {
+   "pair": 4,
+   "reference": [
+    50.0,
+    -1.3802,
+    -84.2814
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -82.7485
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 5,
+   "reference": [
+    50.0,
+    -1.1848,
+    -84.8006
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -82.7485
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 6,
+   "reference": [
+    50.0,
+    -0.9009,
+    -85.5211
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -82.7485
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 7,
+   "reference": [
+    50.0,
+    0.0,
+    0.0
+   ],
+   "sample": [
+    50.0,
+    -1.0,
+    2.0
+   ],
+   "expected": 2.3669
+  },
+  {
+   "pair": 8,
+   "reference": [
+    50.0,
+    -1.0,
+    2.0
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    0.0
+   ],
+   "expected": 2.3669
+  },
+  {
+   "pair": 9,
+   "reference": [
+    50.0,
+    2.49,
+    -0.001
+   ],
+   "sample": [
+    50.0,
+    -2.49,
+    0.0009
+   ],
+   "expected": 7.1792
+  },
+  {
+   "pair": 10,
+   "reference": [
+    50.0,
+    2.49,
+    -0.001
+   ],
+   "sample": [
+    50.0,
+    -2.49,
+    0.001
+   ],
+   "expected": 7.1792
+  },
+  {
+   "pair": 11,
+   "reference": [
+    50.0,
+    2.49,
+    -0.001
+   ],
+   "sample": [
+    50.0,
+    -2.49,
+    0.0011
+   ],
+   "expected": 7.2195
+  },
+  {
+   "pair": 12,
+   "reference": [
+    50.0,
+    2.49,
+    -0.001
+   ],
+   "sample": [
+    50.0,
+    -2.49,
+    0.0012
+   ],
+   "expected": 7.2195
+  },
+  {
+   "pair": 13,
+   "reference": [
+    50.0,
+    -0.001,
+    2.49
+   ],
+   "sample": [
+    50.0,
+    0.0009,
+    -2.49
+   ],
+   "expected": 4.8045
+  },
+  {
+   "pair": 14,
+   "reference": [
+    50.0,
+    -0.001,
+    2.49
+   ],
+   "sample": [
+    50.0,
+    0.001,
+    -2.49
+   ],
+   "expected": 4.8045
+  },
+  {
+   "pair": 15,
+   "reference": [
+    50.0,
+    -0.001,
+    2.49
+   ],
+   "sample": [
+    50.0,
+    0.0011,
+    -2.49
+   ],
+   "expected": 4.7461
+  },
+  {
+   "pair": 16,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    50.0,
+    0.0,
+    -2.5
+   ],
+   "expected": 4.3065
+  },
+  {
+   "pair": 17,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    73.0,
+    25.0,
+    -18.0
+   ],
+   "expected": 27.1492
+  },
+  {
+   "pair": 18,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    61.0,
+    -5.0,
+    29.0
+   ],
+   "expected": 22.8977
+  },
+  {
+   "pair": 19,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    56.0,
+    -27.0,
+    -3.0
+   ],
+   "expected": 31.903
+  },
+  {
+   "pair": 20,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    58.0,
+    24.0,
+    15.0
+   ],
+   "expected": 19.4535
+  },
+  {
+   "pair": 21,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    50.0,
+    3.1736,
+    0.5854
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 22,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    50.0,
+    3.2972,
+    0.0
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 23,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    50.0,
+    1.8634,
+    0.5757
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 24,
+   "reference": [
+    50.0,
+    2.5,
+    0.0
+   ],
+   "sample": [
+    50.0,
+    3.2592,
+    0.335
+   ],
+   "expected": 1.0
+  },
+  {
+   "pair": 25,
+   "reference": [
+    60.2574,
+    -34.0099,
+    36.2677
+   ],
+   "sample": [
+    60.4626,
+    -34.1751,
+    39.4387
+   ],
+   "expected": 1.2644
+  },
+  {
+   "pair": 26,
+   "reference": [
+    63.0109,
+    -31.0961,
+    -5.8663
+   ],
+   "sample": [
+    62.8187,
+    -29.7946,
+    -4.0864
+   ],
+   "expected": 1.263
+  },
+  {
+   "pair": 27,
+   "reference": [
+    61.2901,
+    3.7196,
+    -5.3901
+   ],
+   "sample": [
+    61.4292,
+    2.248,
+    -4.962
+   ],
+   "expected": 1.8731
+  },
+  {
+   "pair": 28,
+   "reference": [
+    35.0831,
+    -44.1164,
+    3.7933
+   ],
+   "sample": [
+    35.0232,
+    -40.0716,
+    1.5901
+   ],
+   "expected": 1.8645
+  },
+  {
+   "pair": 29,
+   "reference": [
+    22.7233,
+    20.0904,
+    -46.694
+   ],
+   "sample": [
+    23.0331,
+    14.973,
+    -42.5619
+   ],
+   "expected": 2.0373
+  },
+  {
+   "pair": 30,
+   "reference": [
+    36.4612,
+    47.858,
+    18.3852
+   ],
+   "sample": [
+    36.2715,
+    50.5065,
+    21.2231
+   ],
+   "expected": 1.4146
+  },
+  {
+   "pair": 31,
+   "reference": [
+    90.8027,
+    -2.0831,
+    1.441
+   ],
+   "sample": [
+    91.1528,
+    -1.6435,
+    0.0447
+   ],
+   "expected": 1.4441
+  },
+  {
+   "pair": 32,
+   "reference": [
+    90.9257,
+    -0.5406,
+    -0.9208
+   ],
+   "sample": [
+    88.6381,
+    -0.8985,
+    -0.7239
+   ],
+   "expected": 1.5381
+  },
+  {
+   "pair": 33,
+   "reference": [
+    6.7747,
+    -0.2908,
+    -2.4247
+   ],
+   "sample": [
+    5.8714,
+    -0.0985,
+    -2.2286
+   ],
+   "expected": 0.6377
+  },
+  {
+   "pair": 34,
+   "reference": [
+    2.0776,
+    0.0795,
+    -1.135
+   ],
+   "sample": [
+    0.9033,
+    -0.0636,
+    -0.5514
+   ],
+   "expected": 0.9082
+  }
+ ]
+}

@@ -1,0 +1,2 @@
+registered: yes
+as srgb: 0.503867 0.503867 0.503867

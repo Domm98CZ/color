@@ -1,0 +1,529 @@
+{
+    "meta": {
+        "id": "wpt-canvas-composite",
+        "source": "web-platform-tests, html/canvas/element/compositing (2d.composite.solid.* and 2d.composite.transparent.*)",
+        "edition": "commit 3634ba2b729fef46f8fb42b78a5cf9ba345c8639",
+        "url": "https://github.com/web-platform-tests/wpt/tree/3634ba2b729fef46f8fb42b78a5cf9ba345c8639/html/canvas/element/compositing",
+        "retrieved": "2026-09-28",
+        "license": "3-Clause BSD License, Copyright (c) web-platform-tests contributors (fixtures/reference/wpt/LICENSE.md)",
+        "notes": "Colors are rgba() with 0-255 channels and a 0-1 alpha; destination is painted first, then source with the operator. expected is the 8-bit RGBA pixel (non-premultiplied, as getImageData returns it); WPT accepts +/- tolerance per channel.",
+        "tolerance": {
+            "abs": 5,
+            "rationale": "The tolerance of the WPT assertion (_assertPixelApprox, 5 of 255 per channel), which covers 8-bit storage and premultiplication rounding in browsers."
+        },
+        "generator": {
+            "tool": "PHP 8.4.19",
+            "version": "3634ba2b729fef46f8fb42b78a5cf9ba345c8639",
+            "script": "tools/wpt/extract-canvas-composite.php",
+            "command": "php tools/wpt/extract-canvas-composite.php <dir> 3634ba2b729fef46f8fb42b78a5cf9ba345c8639"
+        }
+    },
+    "cases": [
+        {
+            "file": "2d.composite.solid.source-over.html",
+            "operator": "source-over",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                255,
+                255,
+                0,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.source-in.html",
+            "operator": "source-in",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                255,
+                255,
+                0,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.source-out.html",
+            "operator": "source-out",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.source-atop.html",
+            "operator": "source-atop",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                255,
+                255,
+                0,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.destination-over.html",
+            "operator": "destination-over",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                0,
+                255,
+                255,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.destination-in.html",
+            "operator": "destination-in",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                0,
+                255,
+                255,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.destination-out.html",
+            "operator": "destination-out",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.destination-atop.html",
+            "operator": "destination-atop",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                0,
+                255,
+                255,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.xor.html",
+            "operator": "xor",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.copy.html",
+            "operator": "copy",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                255,
+                255,
+                0,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.solid.lighter.html",
+            "operator": "lighter",
+            "destination": [
+                0,
+                255,
+                255,
+                1
+            ],
+            "source": [
+                255,
+                255,
+                0,
+                1
+            ],
+            "expected": [
+                255,
+                255,
+                255,
+                255
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.source-over.html",
+            "operator": "source-over",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                36,
+                219,
+                223
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.source-in.html",
+            "operator": "source-in",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                0,
+                255,
+                96
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.source-out.html",
+            "operator": "source-out",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                0,
+                255,
+                96
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.source-atop.html",
+            "operator": "source-atop",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                64,
+                191,
+                128
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.destination-over.html",
+            "operator": "destination-over",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                146,
+                109,
+                223
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.destination-in.html",
+            "operator": "destination-in",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                255,
+                0,
+                96
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.destination-out.html",
+            "operator": "destination-out",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                255,
+                0,
+                32
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.destination-atop.html",
+            "operator": "destination-atop",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                128,
+                128,
+                191
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.xor.html",
+            "operator": "xor",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                64,
+                191,
+                128
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.copy.html",
+            "operator": "copy",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                0,
+                255,
+                191
+            ],
+            "tolerance": 5
+        },
+        {
+            "file": "2d.composite.transparent.lighter.html",
+            "operator": "lighter",
+            "destination": [
+                0,
+                255,
+                0,
+                0.5
+            ],
+            "source": [
+                0,
+                0,
+                255,
+                0.75
+            ],
+            "expected": [
+                0,
+                128,
+                191,
+                255
+            ],
+            "tolerance": 5
+        }
+    ]
+}

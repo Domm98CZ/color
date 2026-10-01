@@ -1,0 +1,11 @@
+complement on oklch (default)  #916300
+complement on hsl              #cc9933
+complement on ryb              #cc8833
+
+triadic                #3366cc #ba363d #1b8316
+analogous 3 x 30 deg   #0077ac #3366cc #7253c3
+analogous 5 x 15 deg   #0077ac #006fc7 #3366cc #585ccb #7253c3
+split complementary    #3366cc #b04900 #6f7300
+triadic on RYB         #3366cc #cc3c33 #c0cc33
+
+triadic tints         #bfd2f3 #f1c5c2 #bfdabc

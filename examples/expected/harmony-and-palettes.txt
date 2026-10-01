@@ -1,0 +1,16 @@
+complement on hsl    #cc9933
+complement on oklch  out of sRGB
+complement on ryb    #cc8833
+triadic   +0.0°  #3366cc
+triadic +120.0°  #ba363d
+triadic +240.0°  #1b8316
+#33cccc #3399cc #3366cc #3333cc #6633cc
+#ff8000 on the RYB wheel: secondary orange
+#3366cc on the RYB wheel: primary blue
+#808080 on the RYB wheel: achromatic 
+50=#e9f6ff 100=#d5e9ff 200=#acceff 300=#79acff 400=#558bf4 500=#386bd2 600=#1c4db0 700=#002d90 800=#000670 
+mapped steps: 0, 1, 2, 3, 7, 8
+#3366cc #5a86d9 #82a4e4 #abc3ee #d4e1f7
+closest pair: 0 and 1, ΔE00 1.84
+ink on paper: 17.40:1
+nearest named color: royalblue (ΔE00 3.34)

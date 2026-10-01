@@ -1,0 +1,6 @@
+cie76[white=D50]@r1                        2.1967
+ciede2000[kL=1,kC=1,kH=1,white=D50]@r1     1.8385
+deltae-ok@r1                               0.0164
+contrast #777 on #fff: 4.478089
+missing: opaque backdrop
+over a stack: 1.1261 (background #808080)

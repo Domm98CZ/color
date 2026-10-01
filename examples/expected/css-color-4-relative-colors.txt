@@ -1,0 +1,14 @@
+rebeccapurple                              -> rgb(102, 51, 153)
+rgb(51 102 204 / 50%)                      -> rgba(51, 102, 204, 0.5)
+oklch(62% 0.18 255)                        -> oklch(0.62 0.18 255)
+oklch(from #3366cc 0.8 c h)                -> oklch(0.8 0.1679 262.293)
+hsl(from #3366cc h s 80%)                  -> rgb(173.4, 193.8, 234.6)
+color-mix(in oklch, #3366cc 30%, gold)     -> oklch(0.7805 0.1779 145.4193)
+color-mix(in srgb, #3366cc, white)         -> rgb(153, 178.5, 229.5)
+
+CssColor oklch(from #3366cc 0.8 c h)       -> #93bdff
+
+color(display-p3 1 0 0) in sRGB terms      -> color(srgb 1.0931 -0.2267 -0.1501)
+toHex()                                    -> refused: outside the sRGB gamut
+mapped with the CSS Color 4 algorithm      -> #ff0b0c
+CssColor(...)->toHex() maps for you        -> #ff0b0c

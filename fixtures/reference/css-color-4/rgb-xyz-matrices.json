@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "id": "css-color-4-rgb-xyz-matrices",
+    "source": "CSS Color Module Level 4, sample code for color conversions: lin_sRGB_to_XYZ, XYZ_to_lin_sRGB, lin_P3_to_XYZ, XYZ_to_lin_P3, lin_a98rgb_to_XYZ, XYZ_to_lin_a98rgb, lin_ProPhoto_to_XYZ, XYZ_to_lin_ProPhoto, lin_2020_to_XYZ, XYZ_to_lin_2020",
+    "edition": "W3C Candidate Recommendation Draft, 26 September 2026",
+    "url": "https://www.w3.org/TR/css-color-4/",
+    "retrieved": "2026-09-28",
+    "license": "W3C Software and Document License (sample code)",
+    "values_precision": "Exact rationals, except ProPhoto RGB which is published as 64-bit decimals (w3c/csswg-drafts#7675). The rec2020 element [2][0] is published as 0 although its computed value is 4.994106574466076e-17.",
+    "tolerance": {
+      "abs": 1e-14,
+      "rationale": "The library computes each matrix from the 4-digit (ProPhoto: 6-digit) primaries and white (SMPTE RP 177) instead of using the literals. Forward matrices differ by at most a few ulp (measured max 3.3e-16); inverses computed by Matrix3::inverse() add a few more (measured max 1.8e-15, elements up to ~3.3). 1e-14 keeps a 5x margin while still catching a wrong primary in the 4th digit (which changes elements by ~1e-4)."
+    }
+  },
+  "cases": [
+    {
+      "space": "srgb-linear",
+      "to_xyz": [["506752/1228815", "87881/245763", "12673/70218"], ["87098/409605", "175762/245763", "12673/175545"], ["7918/409605", "87881/737289", "1001167/1053270"]],
+      "from_xyz": [["12831/3959", "-329/214", "-1974/3959"], ["-851781/878810", "1648619/878810", "36519/878810"], ["705/12673", "-2585/12673", "705/667"]]
+    },
+    {
+      "space": "display-p3-linear",
+      "to_xyz": [["608311/1250200", "189793/714400", "198249/1000160"], ["35783/156275", "247089/357200", "198249/2500400"], ["0/1", "32229/714400", "5220557/5000800"]],
+      "from_xyz": [["446124/178915", "-333277/357830", "-72051/178915"], ["-14852/17905", "63121/35810", "423/17905"], ["11844/330415", "-50337/660830", "316169/330415"]]
+    },
+    {
+      "space": "a98-rgb-linear",
+      "to_xyz": [["573536/994567", "263643/1420810", "187206/994567"], ["591459/1989134", "6239551/9945670", "374412/4972835"], ["53769/1989134", "351524/4972835", "4929758/4972835"]],
+      "from_xyz": [["1829569/896150", "-506331/896150", "-308931/896150"], ["-851781/878810", "1648619/878810", "36519/878810"], ["16779/1248040", "-147721/1248040", "1266979/1248040"]]
+    },
+    {
+      "space": "prophoto-rgb-linear",
+      "to_xyz": [[0.79776664490064230, 0.13518129740053308, 0.03134773412839220], [0.28807482881940130, 0.71183523424187300, 0.00008993693872564], [0.0, 0.0, 0.82510460251046020]],
+      "from_xyz": [[1.34578688164715830, -0.25557208737979464, -0.05110186497554526], [-0.54463070512490190, 1.50824774284514680, 0.02052744743642139], [0.0, 0.0, 1.21196754563894520]]
+    },
+    {
+      "space": "rec2020-linear",
+      "to_xyz": [["63426534/99577255", "20160776/139408157", "47086771/278816314"], ["26158966/99577255", "472592308/697040785", "8267143/139408157"], ["0/1", "19567812/697040785", "295819943/278816314"]],
+      "from_xyz": [["30757411/17917100", "-6372589/17917100", "-4539589/17917100"], ["-19765991/29648200", "47925759/29648200", "467509/29648200"], ["792561/44930125", "-1921689/44930125", "42328811/44930125"]]
+    }
+  ]
+}

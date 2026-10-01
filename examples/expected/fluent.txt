@@ -1,0 +1,16 @@
+#4a7fe7
+#916300
+rgb(110.192812, 149.167275, 222.361368)
+#1f438a #0d234e #020719
+#3366cc #ba363d #1b8316
+dark: yes, luminance 0.146
+#6e98d9
+rgb(91.8, 132.6, 214.2)
+#a18f85
+color {"css":"#3366cc"}
+lighten {"by":0.3,"model":"oklch-l"}
+scaleChroma {"scale":1.5,"model":"oklch"}
+unmapped color(srgb 0.409743 0.745685 1.413938), in gamut: no, mapped #a3c8ff by css-color-4-binary-search-local-minde (ΔEOK 0.165)
+strict: out of sRGB, no hex
+contrast on white: 5.37
+rgb(51, 102, 204) rgb(185.906895, 54.221388, 60.889649) rgb(27.337955, 130.881633, 21.881647)

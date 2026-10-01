@@ -1,0 +1,167 @@
+{
+ "meta": {
+  "id": "css-color-4-notation-examples",
+  "source": "CSS Color Module Level 4, examples in sections 5.2, 7, 8, 15 and 16 (parsing, resolving and serializing <color> values)",
+  "edition": "W3C Candidate Recommendation Draft, 26 September 2026",
+  "url": "https://www.w3.org/TR/css-color-4/",
+  "retrieved": "2026-09-28",
+  "license": "W3C Software and Document License (examples transcribed from the specification text)",
+  "notes": "same_color_as: the two strings denote the same color (compared numerically); serialization: the exact string the specification gives (with fraction_digits when the example states the retained precision). Not transcribed: the example 'oklab(54.0 -25% -5%)' -> 'oklab(0.54 -0.1 -0.02)' in section 16.4 contradicts the normative percent reference range and clamping of section 9.4 (a number L of 54 is clamped to 1).",
+  "tolerance": {
+   "abs": 5e-05,
+   "rationale": "same_color_as pairs where the specification rounds one side (77.78%, 33.33%, 57.28%) differ by up to 5e-5 of the 0-1 sRGB channel (0.005% of 100%); exact pairs agree to about 1e-15. Serialization strings are compared exactly."
+  }
+ },
+ "cases": [
+  {
+   "section": "5.2",
+   "input": "#00ff00",
+   "same_color_as": "rgb(0 255 0)"
+  },
+  {
+   "section": "5.2",
+   "input": "#0000ffcc",
+   "same_color_as": "rgb(0 0 100% / 80%)"
+  },
+  {
+   "section": "5.2",
+   "input": "#123",
+   "same_color_as": "#112233"
+  },
+  {
+   "section": "7",
+   "input": "hsl(120deg 100% 50%)",
+   "same_color_as": "lime"
+  },
+  {
+   "section": "7",
+   "input": "hsl(0deg 100% 50%)",
+   "same_color_as": "red"
+  },
+  {
+   "section": "8",
+   "input": "hwb(150 20% 10%)",
+   "same_color_as": "rgb(20% 90% 55%)"
+  },
+  {
+   "section": "8",
+   "input": "hsl(150 77.78% 55%)",
+   "same_color_as": "rgb(20% 90% 55%)",
+   "note": "the spec rounds the saturation to 77.78%"
+  },
+  {
+   "section": "8",
+   "input": "hwb(45 40% 80%)",
+   "same_color_as": "rgb(33.33% 33.33% 33.33%)",
+   "note": "the spec rounds 40 / 120 to 33.33%"
+  },
+  {
+   "section": "16.2.2",
+   "input": "rgb(29 164 192 / 95%)",
+   "serialization": "rgba(29, 164, 192, 0.95)"
+  },
+  {
+   "section": "16.2.2",
+   "input": "hwb(740deg 20% 30% / 50%)",
+   "serialization": "rgba(178.5, 93.5, 51, 0.5)"
+  },
+  {
+   "section": "16.2.2",
+   "input": "hwb(20 none 30% / none)",
+   "serialization": "hwb(20 none 30% / none)"
+  },
+  {
+   "section": "16.2.2",
+   "input": "rgb(none 0 0)",
+   "serialization": "color(srgb none 0 0)"
+  },
+  {
+   "section": "16.2.2",
+   "input": "rgb(146.064 107.457 131.223)",
+   "same_color_as": "rgb(57.28% 42.14% 51.46%)",
+   "note": "the spec rounds the percentages to 2 decimals"
+  },
+  {
+   "section": "16.2.2",
+   "input": "goldenrod",
+   "serialization": "rgb(218, 165, 32)"
+  },
+  {
+   "section": "16.3",
+   "input": "lab(56.200% 0.000 83.600)",
+   "serialization": "lab(56.2 0 83.6)"
+  },
+  {
+   "section": "16.3",
+   "input": "lab(56.200% 0.000 66.88%)",
+   "serialization": "lab(56.2 0 83.6)"
+  },
+  {
+   "section": "16.3",
+   "input": "lch(37% 105.0 305.00)",
+   "serialization": "lch(37 105 305)"
+  },
+  {
+   "section": "16.3",
+   "input": "lch(56.2% 83.6 357.4 /93%)",
+   "serialization": "lch(56.2 83.6 357.4 / 0.93)"
+  },
+  {
+   "section": "16.4",
+   "input": "oklab(54.0% -0.10 -0.02)",
+   "serialization": "oklab(0.54 -0.1 -0.02)"
+  },
+  {
+   "section": "16.4",
+   "input": "oklch(56.43% 0.0900 123.40)",
+   "serialization": "oklch(0.5643 0.09 123.4)"
+  },
+  {
+   "section": "16.4",
+   "input": "oklch(53.85% 0.1725 320.67 / 70%)",
+   "serialization": "oklch(0.5385 0.1725 320.67 / 0.7)"
+  },
+  {
+   "section": "16.5",
+   "input": "color(rec2020 0.400 0.660 0.340)",
+   "serialization": "color(rec2020 0.4 0.66 0.34)"
+  },
+  {
+   "section": "15.2",
+   "input": "lch(52.2345% 72.2 56.2 / 1)",
+   "serialization": "lch(52.2345 72.2 56.2)"
+  },
+  {
+   "section": "15.3",
+   "input": "oklch(42.1% 0.192 328.6 / 1)",
+   "serialization": "oklch(0.421 0.192 328.6)"
+  },
+  {
+   "section": "15.4",
+   "input": "color(display-p3 0.823 0.6554 0.2537 /1)",
+   "serialization": "color(display-p3 0.823 0.6554 0.2537)"
+  },
+  {
+   "section": "15.4",
+   "input": "color(xyz 0.472 0.372 0.131)",
+   "serialization": "color(xyz-d65 0.472 0.372 0.131)"
+  },
+  {
+   "section": "16.5",
+   "input": "color(dIsPlAy-P3 0.964 0.763 0.787)",
+   "serialization": "color(display-p3 0.96 0.76 0.79)",
+   "fraction_digits": 2
+  },
+  {
+   "section": "16.5",
+   "input": "color(prophoto-rgb 0.2804 0.40283 0.42259/85%)",
+   "serialization": "color(prophoto-rgb 0.28 0.403 0.423 / 0.85)",
+   "fraction_digits": 3
+  },
+  {
+   "section": "16.1.2",
+   "input": "rgb(0 0 0 / 12.3456789%)",
+   "serialization": "rgba(0, 0, 0, 0.123457)"
+  }
+ ]
+}

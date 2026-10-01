@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "id": "ottosson-2020-oklab-examples",
+    "source": "Björn Ottosson: A perceptual color space for image processing, section 'Table of example XYZ and OKLab pairs'",
+    "edition": "Published 2020-12-23; matrices updated 2021-01-25",
+    "url": "https://bottosson.github.io/posts/oklab/",
+    "retrieved": "2026-09-28",
+    "license": "Factual reference values quoted for testing; not a creative work",
+    "values_precision": "Inputs and outputs rounded to 3 decimal places.",
+    "tolerance": {
+      "abs": 1e-3,
+      "rationale": "Outputs are rounded to 3 decimals (up to 5e-4). In addition the library uses the CSS Color 4 matrices, recalculated for a D65 white consistent with CSS and 64-bit precision, which differ slightly from the matrices behind the table, and the first input (0.950, 1.000, 1.089) is itself a 3-decimal approximation of D65. Measured maximum deviation: 4.03e-4. The test guards against gross errors (wrong matrix, wrong cube root); exact agreement with CSS is verified by css-color-4-srgb-conversions."
+    }
+  },
+  "cases": [
+    { "xyz": [0.950, 1.000, 1.089], "oklab": [1.000, 0.000, 0.000] },
+    { "xyz": [1.000, 0.000, 0.000], "oklab": [0.450, 1.236, -0.019] },
+    { "xyz": [0.000, 1.000, 0.000], "oklab": [0.922, -0.671, 0.263] },
+    { "xyz": [0.000, 0.000, 1.000], "oklab": [0.153, -1.415, -0.449] }
+  ]
+}

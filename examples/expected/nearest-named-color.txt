@@ -1,0 +1,10 @@
+#3366cc -> royalblue        dE00  3.34
+#ffcc00 -> gold             dE00  3.55
+#916300 -> darkgoldenrod    dE00 13.80
+#5085ee -> cornflowerblue   dE00  5.03
+#123456 -> midnightblue     dE00 10.40
+
+closest to #96b4e9:
+  lightsteelblue   #b0c4de  dE00  7.70
+  cornflowerblue   #6495ed  dE00 10.43
+  lightskyblue     #87cefa  dE00 10.83

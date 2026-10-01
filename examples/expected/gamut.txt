@@ -1,0 +1,4 @@
+P3 green in srgb: -0.511605 1.018266 -0.310675
+in display-p3 gamut: yes
+in srgb gamut:       no
+in oklab gamut:      yes

@@ -1,0 +1,14 @@
+#36c                       -> srgb         rgb(51, 102, 204)
+rebeccapurple              -> srgb         rgb(102, 51, 153)
+rgba(51, 102, 204, 50%)    -> srgb         rgba(51, 102, 204, 0.5)
+hsl(220 60% 50%)           -> hsl          rgb(51, 102, 204)
+oklch(62% 0.18 255)        -> oklch        oklch(0.62 0.18 255)
+color(display-p3 1 0 0)    -> display-p3   color(display-p3 1 0 0)
+lch(50 30 none)            -> lch          lch(50 30 none)
+#3366cc
+HEX refused: outside sRGB
+oklch(0.623 0.18 255.123)
+{"v":1,"space":"oklch","coords":[0.7,0.1,null],"alpha":0.5}
+same after JSON: yes
+offset 4: three numbers or three percentages
+unresolvable: currentcolor

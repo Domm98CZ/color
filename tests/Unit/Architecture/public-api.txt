@@ -1,0 +1,1192 @@
+Color: final readonly class
+  const DEFAULT_GAMUT_TOLERANCE = 1.0E-6
+  method alpha(): float
+  method coordinate(string|int $channel): ?float
+  method coordinates(): array
+  method equals(Color $other): bool
+  method static from(Space\Record\CoordinateRecord $record): Color
+  method static fromHex(string $hex): Color
+  method static fromHsl(float $hue, float $saturation, float $lightness, float $alpha = 1.0): Color
+  method static fromHsv(float $hue, float $saturation, float $value, float $alpha = 1.0): Color
+  method static fromHwb(float $hue, float $whiteness, float $blackness, float $alpha = 1.0): Color
+  method static fromJson(string $json, ?Space\ColorSpaceRegistry $registry = NULL): Color
+  method static fromLab(float $lightness, float $a, float $b, float $alpha = 1.0): Color
+  method static fromLch(float $lightness, float $chroma, float $hue, float $alpha = 1.0): Color
+  method static fromOklab(float $lightness, float $a, float $b, float $alpha = 1.0): Color
+  method static fromOklch(float $lightness, float $chroma, float $hue, float $alpha = 1.0): Color
+  method static fromRgb(int $red, int $green, int $blue): Color
+  method static fromRgba(int $red, int $green, int $blue, float $alpha): Color
+  method static fromSrgb(float $red, float $green, float $blue, float $alpha = 1.0): Color
+  method static fromXyz(float $x, float $y, float $z, float $alpha = 1.0): Color
+  method hasMissingComponents(): bool
+  method in(string $record, ?Space\ConversionOptions $options = NULL): Space\Record\CoordinateRecord
+  method isAlphaMissing(): bool
+  method isCloseTo(Color $other, Math\Tolerance $tolerance): bool
+  method isInGamut(?Space\Contract\ColorSpace $space = NULL, ?Math\Tolerance $tolerance = NULL): bool
+  method static of(Space\Contract\ColorSpace $space, array $coordinates, ?float $alpha = 1.0): Color
+  method opaque(): Color
+  method static parse(string $css): Color
+  method space(): Space\Contract\ColorSpace
+  method to(Space\Contract\ColorSpace $space, ?Space\ConversionOptions $options = NULL): Color
+  method toCss(?Notation\CssFormat $format = NULL): string
+  method toHex(bool $alwaysIncludeAlpha = false): string
+  method toJson(): string
+  method withAlpha(?float $alpha): Color
+  method withCoordinate(string|int $channel, ?float $value): Color
+Colorimetry\Algorithm\Bradford: final class
+  implements Colorimetry\Contract\ChromaticAdaptationTransform
+  method id(): Provenance\AlgorithmId
+  method matrix(Colorimetry\WhitePoint $from, Colorimetry\WhitePoint $to): Math\Matrix3
+Colorimetry\Algorithm\GammaTransferFunction: final readonly class
+  implements Colorimetry\Contract\TransferFunction
+  property readonly float $gamma
+  method __construct(promoted float $gamma)
+  method id(): string
+  method toEncoded(float $linear): float
+  method toLinear(float $encoded): float
+Colorimetry\Algorithm\ProPhotoTransferFunction: final class
+  implements Colorimetry\Contract\TransferFunction
+  method id(): string
+  method toEncoded(float $linear): float
+  method toLinear(float $encoded): float
+Colorimetry\Algorithm\SrgbTransferFunction: final class
+  implements Colorimetry\Contract\TransferFunction
+  method id(): string
+  method toEncoded(float $linear): float
+  method toLinear(float $encoded): float
+Colorimetry\ChromaticAdaptations: final class
+  method static bradford(): Colorimetry\Algorithm\Bradford
+Colorimetry\Chromaticity: final readonly class
+  property readonly float $x
+  property readonly float $y
+  method __construct(float $x, float $y)
+  method static fromUv(float $u, float $v): Colorimetry\Chromaticity
+  method static fromXyz(Math\Vector3 $xyz): Colorimetry\Chromaticity
+  method toUv(): array
+  method toXyz(float $luminance = 1.0): Math\Vector3
+Colorimetry\Contract\ChromaticAdaptationTransform: interface
+  method id(): Provenance\AlgorithmId
+  method matrix(Colorimetry\WhitePoint $from, Colorimetry\WhitePoint $to): Math\Matrix3
+Colorimetry\Contract\TransferFunction: interface
+  method id(): string
+  method toEncoded(float $linear): float
+  method toLinear(float $encoded): float
+Colorimetry\Exception\InvalidColorimetricDataException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Colorimetry\RgbPrimaries: final readonly class
+  property readonly Colorimetry\Chromaticity $red
+  property readonly Colorimetry\Chromaticity $green
+  property readonly Colorimetry\Chromaticity $blue
+  method __construct(promoted Colorimetry\Chromaticity $red, promoted Colorimetry\Chromaticity $green, promoted Colorimetry\Chromaticity $blue)
+  method toXyzMatrix(Colorimetry\WhitePoint $white): Math\Matrix3
+Colorimetry\StandardObserver: enum: string
+  case Cie1931TwoDegree = 'cie1931-2'
+  case Cie1964TenDegree = 'cie1964-10'
+Colorimetry\WhitePoint: final readonly class
+  property readonly string $name
+  property readonly Math\Vector3 $xyz
+  property readonly Colorimetry\StandardObserver $observer
+  method chromaticity(): Colorimetry\Chromaticity
+  method equals(Colorimetry\WhitePoint $other): bool
+  method static fromChromaticity(string $name, Colorimetry\Chromaticity $chromaticity, Colorimetry\StandardObserver $observer = Colorimetry\StandardObserver::Cie1931TwoDegree): Colorimetry\WhitePoint
+  method static fromXyz(string $name, Math\Vector3 $xyz, Colorimetry\StandardObserver $observer = Colorimetry\StandardObserver::Cie1931TwoDegree): Colorimetry\WhitePoint
+Colorimetry\WhitePoints: final class
+  method static d50(): Colorimetry\WhitePoint
+  method static d65(): Colorimetry\WhitePoint
+Compositing\Algorithm\Composite: final readonly class
+  implements Compositing\Contract\CompositeOperator
+  property readonly Compositing\PorterDuff $operator
+  property readonly Compositing\BlendMode $blend
+  method __construct(promoted Compositing\PorterDuff $operator = Compositing\PorterDuff::SourceOver, promoted Compositing\BlendMode $blend = Compositing\BlendMode::Normal, ?Space\Contract\ColorSpace $space = NULL)
+  method composite(Color $source, Color $backdrop): Color
+  method id(): Provenance\AlgorithmId
+  method space(): Space\Contract\ColorSpace
+Compositing\Algorithm\SourceOver: final readonly class
+  implements Compositing\Contract\CompositeOperator
+  method __construct(?Space\Contract\ColorSpace $space = NULL)
+  method composite(Color $source, Color $backdrop): Color
+  method id(): Provenance\AlgorithmId
+  method space(): Space\Contract\ColorSpace
+Compositing\BlendMode: enum: string
+  case Normal = 'normal'
+  case Multiply = 'multiply'
+  case Screen = 'screen'
+  case Overlay = 'overlay'
+  case Darken = 'darken'
+  case Lighten = 'lighten'
+  case ColorDodge = 'color-dodge'
+  case ColorBurn = 'color-burn'
+  case HardLight = 'hard-light'
+  case SoftLight = 'soft-light'
+  case Difference = 'difference'
+  case Exclusion = 'exclusion'
+  case Hue = 'hue'
+  case Saturation = 'saturation'
+  case Color = 'color'
+  case Luminosity = 'luminosity'
+  method blend(array $backdrop, array $source): array
+  method isSeparable(): bool
+Compositing\Compositor: final class
+  method static blend(Compositing\BlendMode $mode, Compositing\PorterDuff $operator = Compositing\PorterDuff::SourceOver, ?Space\Contract\ColorSpace $space = NULL): Compositing\Contract\CompositeOperator
+  method static porterDuff(Compositing\PorterDuff $operator, ?Space\Contract\ColorSpace $space = NULL): Compositing\Contract\CompositeOperator
+  method static sourceOver(?Space\Contract\ColorSpace $space = NULL): Compositing\Contract\CompositeOperator
+Compositing\Contract\CompositeOperator: interface
+  method composite(Color $source, Color $backdrop): Color
+  method id(): Provenance\AlgorithmId
+  method space(): Space\Contract\ColorSpace
+Compositing\Exception\InvalidCompositingSpaceException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Compositing\LayerStack: final readonly class
+  property readonly array $layers
+  method composite(Compositing\Contract\CompositeOperator $operator = new Compositing\Algorithm\SourceOver()): Compositing\Result\CompositeResult
+  method static of(Color $top, Color ...$below): Compositing\LayerStack
+  method over(Color $backdrop): Compositing\LayerStack
+Compositing\PorterDuff: enum: string
+  case Clear = 'clear'
+  case Copy = 'copy'
+  case Destination = 'destination'
+  case SourceOver = 'source-over'
+  case DestinationOver = 'destination-over'
+  case SourceIn = 'source-in'
+  case DestinationIn = 'destination-in'
+  case SourceOut = 'source-out'
+  case DestinationOut = 'destination-out'
+  case SourceAtop = 'source-atop'
+  case DestinationAtop = 'destination-atop'
+  case Xor = 'xor'
+  case Lighter = 'lighter'
+  method backdropFraction(float $sourceAlpha, float $backdropAlpha): float
+  method sourceFraction(float $sourceAlpha, float $backdropAlpha): float
+Compositing\Result\CompositeResult: final readonly class
+  property readonly Color $color
+  property readonly Provenance\AlgorithmId $operator
+  property readonly array $layers
+  method __construct(promoted Color $color, promoted Provenance\AlgorithmId $operator, promoted array $layers)
+  method isOpaque(): bool
+Contrast\Algorithm\Wcag2ContrastRatio: final readonly class
+  implements Contrast\Contract\ContrastAlgorithm
+  method __construct(promoted Contrast\Algorithm\Wcag2LuminanceThreshold $threshold = Contrast\Algorithm\Wcag2LuminanceThreshold::Current)
+  method id(): Provenance\AlgorithmId
+  method measure(Color $foreground, Color|Compositing\LayerStack $background): Contrast\Result\ContrastMeasurement
+  method relativeLuminance(Color $color): float
+Contrast\Algorithm\Wcag2LuminanceThreshold: enum: string
+  case Current = '0.04045'
+  case Wcag20 = '0.03928'
+  method threshold(): float
+Contrast\Contract\ContrastAlgorithm: interface
+  method id(): Provenance\AlgorithmId
+  method measure(Color $foreground, Color|Compositing\LayerStack $background): Contrast\Result\ContrastMeasurement
+Contrast\Contrast: final class
+  method static wcag2(Contrast\Algorithm\Wcag2LuminanceThreshold $threshold = Contrast\Algorithm\Wcag2LuminanceThreshold::Current): Contrast\Algorithm\Wcag2ContrastRatio
+Contrast\Exception\ColorOutsideSrgbException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+  method __construct(promoted Color $color)
+  method getColor(): Color
+Contrast\Exception\EmptyBackgroundSetException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Contrast\Exception\MissingBackdropException: final class
+  extends Exception\InsufficientDataException
+  implements Exception\ColorException
+  method static forAlpha(float $alpha): Contrast\Exception\MissingBackdropException
+Contrast\Result\ContrastMeasurement: final readonly class
+  property readonly float $value
+  property readonly Provenance\AlgorithmId $algorithm
+  property readonly Color $foreground
+  property readonly Color $background
+  property readonly ?Compositing\Result\CompositeResult $backgroundComposition
+  property readonly ?Compositing\Result\CompositeResult $foregroundComposition
+  property readonly Provenance\Diagnostics $diagnostics
+  property readonly bool $experimental
+  method __construct(promoted float $value, promoted Provenance\AlgorithmId $algorithm, promoted Color $foreground, promoted Color $background, promoted ?Compositing\Result\CompositeResult $backgroundComposition, promoted ?Compositing\Result\CompositeResult $foregroundComposition, promoted Provenance\Diagnostics $diagnostics, promoted bool $experimental = false)
+Contrast\Result\ContrastRange: final readonly class
+  property readonly Contrast\Result\ContrastMeasurement $min
+  property readonly Contrast\Result\ContrastMeasurement $max
+  property readonly array $measurements
+  method static measure(Contrast\Contract\ContrastAlgorithm $algorithm, Color $foreground, array $backgrounds): Contrast\Result\ContrastRange
+Difference\Algorithm\Cie76: final readonly class
+  implements Difference\Contract\ColorDifferenceMetric
+  method __construct(?Space\Definition\LabSpace $lab = NULL)
+  method difference(Color $reference, Color $sample): Difference\Result\ColorDifference
+  method id(): Provenance\AlgorithmId
+Difference\Algorithm\Ciede2000: final readonly class
+  implements Difference\Contract\ColorDifferenceMetric
+  method __construct(float $kL = 1.0, float $kC = 1.0, float $kH = 1.0, ?Space\Definition\LabSpace $lab = NULL)
+  method difference(Color $reference, Color $sample): Difference\Result\ColorDifference
+  method id(): Provenance\AlgorithmId
+Difference\Algorithm\DeltaEOk: final readonly class
+  implements Difference\Contract\ColorDifferenceMetric
+  method difference(Color $reference, Color $sample): Difference\Result\ColorDifference
+  method id(): Provenance\AlgorithmId
+Difference\Contract\ColorDifferenceMetric: interface
+  method difference(Color $reference, Color $sample): Difference\Result\ColorDifference
+  method id(): Provenance\AlgorithmId
+Difference\DeltaE: final class
+  method static cie76(?Space\Definition\LabSpace $lab = NULL): Difference\Algorithm\Cie76
+  method static ciede2000(float $kL = 1.0, float $kC = 1.0, float $kH = 1.0, ?Space\Definition\LabSpace $lab = NULL): Difference\Algorithm\Ciede2000
+  method static ok(): Difference\Algorithm\DeltaEOk
+Difference\Exception\InvalidMetricParameterException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Difference\Result\ColorDifference: final readonly class
+  property readonly float $value
+  property readonly Provenance\AlgorithmId $metric
+  property readonly Provenance\Diagnostics $diagnostics
+  property readonly ?Difference\Result\DifferenceComponents $components
+  method __construct(promoted float $value, promoted Provenance\AlgorithmId $metric, promoted Provenance\Diagnostics $diagnostics, promoted ?Difference\Result\DifferenceComponents $components = NULL)
+Difference\Result\DifferenceComponents: final readonly class
+  property readonly float $deltaL
+  property readonly float $deltaC
+  property readonly float $deltaH
+  method __construct(promoted float $deltaL, promoted float $deltaC, promoted float $deltaH)
+Exception\ColorException: interface
+Exception\ConfigurationException: abstract class
+  extends LogicException
+  implements Exception\ColorException
+Exception\DomainException: abstract class
+  extends DomainException
+  implements Exception\ColorException
+Exception\InsufficientDataException: abstract class
+  extends Exception\DomainException
+  implements Exception\ColorException
+  method __construct(string $message, promoted array $missing, ?Throwable $previous = NULL)
+  method getMissing(): array
+Exception\InvalidArgumentException: abstract class
+  extends InvalidArgumentException
+  implements Exception\ColorException
+Fluent\ChainedColor: final readonly class
+  extends Fluent\FluentColor
+Fluent\CssColor: final readonly class
+  extends Fluent\FluentColor
+  method __construct(string $css, ?Fluent\FluentConfig $config = NULL)
+Fluent\Fluent: final readonly class
+  method __construct(promoted Fluent\FluentConfig $config)
+  method color(Color|string $color): Fluent\FluentColor
+  method config(): Fluent\FluentConfig
+  method static create(): Fluent\Fluent
+Fluent\FluentColor: abstract readonly class
+  method __toString(): string
+  method analogous(int $count = 3, float $step = 30.0, ?Harmony\Contract\HueWheel $wheel = NULL): array
+  method color(): Color
+  method complement(?Harmony\Contract\HueWheel $wheel = NULL): Fluent\FluentColor
+  method config(): Fluent\FluentConfig
+  method contrastWith(Color|Fluent\FluentColor|string $background, ?Contrast\Contract\ContrastAlgorithm $algorithm = NULL): Contrast\Result\ContrastMeasurement
+  method darken(float $by, ?Operation\LightnessModel $model = NULL): Fluent\FluentColor
+  method harmony(Harmony\HarmonyScheme $scheme, ?Harmony\Contract\HueWheel $wheel = NULL): Harmony\Result\HarmonySet
+  method isDark(?float $threshold = NULL): bool
+  method isLight(?float $threshold = NULL): bool
+  method lighten(float $by, ?Operation\LightnessModel $model = NULL): Fluent\FluentColor
+  method luminance(): float
+  method mix(Color|Fluent\FluentColor|string $other, float $weight = 0.5, ?Operation\Mixer $mixer = NULL): Fluent\FluentColor
+  method static of(Color $color, ?Fluent\FluentConfig $config = NULL): Fluent\FluentColor
+  method rotateHue(float $degrees, ?Operation\HueModel $model = NULL): Fluent\FluentColor
+  method scaleChroma(float $scale, ?Operation\ChromaModel $model = NULL): Fluent\FluentColor
+  method shade(float $amount, ?Operation\Mixer $mixer = NULL): Fluent\FluentColor
+  method shades(int $steps, ?Operation\Mixer $mixer = NULL): array
+  method splitComplementary(float $spread = 30.0, ?Harmony\Contract\HueWheel $wheel = NULL): array
+  method tint(float $amount, ?Operation\Mixer $mixer = NULL): Fluent\FluentColor
+  method tints(int $steps, ?Operation\Mixer $mixer = NULL): array
+  method toColor(): Color
+  method toCss(?Notation\CssFormat $format = NULL): string
+  method toHex(bool $alwaysIncludeAlpha = false): string
+  method toHsl(): Space\Record\Hsl
+  method toRgb(): Space\Record\Rgb255
+  method tone(float $amount, Color|Fluent\FluentColor|string|null $gray = NULL, ?Operation\Mixer $mixer = NULL): Fluent\FluentColor
+  method tones(int $steps, Color|Fluent\FluentColor|string|null $gray = NULL, ?Operation\Mixer $mixer = NULL): array
+  method trace(): Fluent\Result\FluentTrace
+  method triadic(?Harmony\Contract\HueWheel $wheel = NULL): array
+  method withAlpha(?float $alpha): Fluent\FluentColor
+Fluent\FluentConfig: final readonly class
+  property readonly Operation\LightnessModel $lightness
+  property readonly Operation\ChromaModel $chroma
+  property readonly Operation\HueModel $hue
+  property readonly Operation\Mixer $mixer
+  property readonly Harmony\Contract\HueWheel $wheel
+  property readonly Space\Contract\ColorSpace $outputSpace
+  property readonly ?Gamut\Contract\GamutMapper $outputMapper
+  property readonly Contrast\Contract\ContrastAlgorithm $contrast
+  method static defaults(): Fluent\FluentConfig
+  method withChroma(Operation\ChromaModel $model): Fluent\FluentConfig
+  method withContrast(Contrast\Contract\ContrastAlgorithm $algorithm): Fluent\FluentConfig
+  method withHue(Operation\HueModel $model): Fluent\FluentConfig
+  method withLightness(Operation\LightnessModel $model): Fluent\FluentConfig
+  method withMixer(Operation\Mixer $mixer): Fluent\FluentConfig
+  method withOutputMapping(?Gamut\Contract\GamutMapper $mapper): Fluent\FluentConfig
+  method withOutputSpace(Space\Contract\ColorSpace $space): Fluent\FluentConfig
+  method withWheel(Harmony\Contract\HueWheel $wheel): Fluent\FluentConfig
+Fluent\HexColor: final readonly class
+  extends Fluent\FluentColor
+  method __construct(string $hex, ?Fluent\FluentConfig $config = NULL)
+Fluent\HslColor: final readonly class
+  extends Fluent\FluentColor
+  method __construct(float $hue, float $saturation, float $lightness, float $alpha = 1.0, ?Fluent\FluentConfig $config = NULL)
+Fluent\OklchColor: final readonly class
+  extends Fluent\FluentColor
+  method __construct(float $lightness, float $chroma, float $hue, float $alpha = 1.0, ?Fluent\FluentConfig $config = NULL)
+Fluent\Result\FluentStep: final readonly class
+  property readonly Provenance\Diagnostics $diagnostics
+  property readonly string $operation
+  property readonly array $parameters
+  property readonly Color $result
+  property readonly ?Provenance\AlgorithmId $algorithm
+  method __construct(promoted string $operation, promoted array $parameters, promoted Color $result, promoted ?Provenance\AlgorithmId $algorithm = NULL, ?Provenance\Diagnostics $diagnostics = NULL)
+Fluent\Result\FluentTrace: final readonly class
+  property readonly array $steps
+  property readonly Space\Contract\ColorSpace $outputSpace
+  property readonly ?Gamut\Result\GamutMappingResult $output
+  method __construct(promoted array $steps, promoted Space\Contract\ColorSpace $outputSpace, promoted ?Gamut\Result\GamutMappingResult $output)
+  method operations(): array
+Fluent\RgbColor: final readonly class
+  extends Fluent\FluentColor
+  method __construct(int $red, int $green, int $blue, ?Fluent\FluentConfig $config = NULL)
+Fluent\RgbaColor: final readonly class
+  extends Fluent\FluentColor
+  method __construct(int $red, int $green, int $blue, float $alpha, ?Fluent\FluentConfig $config = NULL)
+Gamut\Algorithm\ChromaReduction: final readonly class
+  implements Gamut\Contract\GamutMapper
+  const EPSILON = 0.0001
+  method id(): Provenance\AlgorithmId
+  method map(Color $color, Space\Contract\ColorSpace $destination): Gamut\Result\GamutMappingResult
+Gamut\Algorithm\Clip: final readonly class
+  implements Gamut\Contract\GamutMapper
+  method id(): Provenance\AlgorithmId
+  method map(Color $color, Space\Contract\ColorSpace $destination): Gamut\Result\GamutMappingResult
+Gamut\Algorithm\CssColor4BinarySearch: final readonly class
+  implements Gamut\Contract\GamutMapper
+  const JND = 0.02
+  const EPSILON = 0.0001
+  method id(): Provenance\AlgorithmId
+  method map(Color $color, Space\Contract\ColorSpace $destination): Gamut\Result\GamutMappingResult
+Gamut\Algorithm\CssColor4RayTrace: final readonly class
+  implements Gamut\Contract\GamutMapper
+  method id(): Provenance\AlgorithmId
+  method map(Color $color, Space\Contract\ColorSpace $destination): Gamut\Result\GamutMappingResult
+Gamut\Contract\GamutMapper: interface
+  method id(): Provenance\AlgorithmId
+  method map(Color $color, Space\Contract\ColorSpace $destination): Gamut\Result\GamutMappingResult
+Gamut\Exception\UnsupportedGamutException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+Gamut\GamutMappers: final class
+  method static chromaReduction(): Gamut\Algorithm\ChromaReduction
+  method static clip(): Gamut\Algorithm\Clip
+  method static cssColor4(): Gamut\Algorithm\CssColor4BinarySearch
+  method static rayTrace(): Gamut\Algorithm\CssColor4RayTrace
+Gamut\Result\GamutMappingResult: final readonly class
+  property readonly Color $color
+  property readonly Color $original
+  property readonly Space\Contract\ColorSpace $destination
+  property readonly bool $wasInGamut
+  property readonly Provenance\AlgorithmId $method
+  property readonly Difference\Result\ColorDifference $difference
+  method __construct(promoted Color $color, promoted Color $original, promoted Space\Contract\ColorSpace $destination, promoted bool $wasInGamut, promoted Provenance\AlgorithmId $method, promoted Difference\Result\ColorDifference $difference)
+Harmony\ColorOrder: enum: string
+  case Primary = 'primary'
+  case Secondary = 'secondary'
+  case Tertiary = 'tertiary'
+  case Achromatic = 'achromatic'
+Harmony\Contract\ClassifyingHueWheel: interface
+  implements Harmony\Contract\HueWheel
+  method classify(Color $color): Harmony\Result\WheelClassification
+  method positions(): array
+Harmony\Contract\HueWheel: interface
+  method colorAt(float $angle, Color $template): Color
+  method hueOf(Color $color): ?float
+  method id(): Provenance\AlgorithmId
+Harmony\Exception\InvalidHarmonyException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Harmony\Harmony: final class
+  method static analogous(Color $base, Harmony\Contract\HueWheel $wheel, int $count = 3, float $step = 30.0, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+  method static complementary(Color $base, Harmony\Contract\HueWheel $wheel, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+  method static of(Color $base, Harmony\Contract\HueWheel $wheel, Harmony\HarmonyScheme $scheme, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+  method static splitComplementary(Color $base, Harmony\Contract\HueWheel $wheel, float $spread = 30.0, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+  method static square(Color $base, Harmony\Contract\HueWheel $wheel, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+  method static tetradic(Color $base, Harmony\Contract\HueWheel $wheel, float $offset = 60.0, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+  method static triadic(Color $base, Harmony\Contract\HueWheel $wheel, ?Space\Contract\ColorSpace $gamut = NULL): Harmony\Result\HarmonySet
+Harmony\HarmonyScheme: final readonly class
+  property readonly string $name
+  property readonly array $offsets
+  method static analogous(int $count = 3, float $step = 30.0): Harmony\HarmonyScheme
+  method static complementary(): Harmony\HarmonyScheme
+  method static custom(string $name, array $offsets): Harmony\HarmonyScheme
+  method static splitComplementary(float $spread = 30.0): Harmony\HarmonyScheme
+  method static square(): Harmony\HarmonyScheme
+  method static tetradic(float $offset = 60.0): Harmony\HarmonyScheme
+  method static triadic(): Harmony\HarmonyScheme
+Harmony\HueWheels: final class
+  method static cieLch(): Harmony\Contract\HueWheel
+  method static hsl(): Harmony\Wheel\HslHueWheel
+  method static oklch(): Harmony\Contract\HueWheel
+  method static ryb(): Harmony\Wheel\RybHueWheel
+Harmony\Result\HarmonyMember: final readonly class
+  property readonly Color $color
+  property readonly float $offset
+  property readonly ?float $angle
+  property readonly bool $inGamut
+  method __construct(promoted Color $color, promoted float $offset, promoted ?float $angle, promoted bool $inGamut)
+Harmony\Result\HarmonySet: final readonly class
+  property readonly Color $base
+  property readonly Harmony\HarmonyScheme $scheme
+  property readonly Provenance\AlgorithmId $wheel
+  property readonly Space\Contract\ColorSpace $gamut
+  property readonly array $members
+  property readonly Provenance\Diagnostics $diagnostics
+  method __construct(promoted Color $base, promoted Harmony\HarmonyScheme $scheme, promoted Provenance\AlgorithmId $wheel, promoted Space\Contract\ColorSpace $gamut, promoted array $members, promoted Provenance\Diagnostics $diagnostics)
+  method allInGamut(): bool
+  method colors(): array
+Harmony\Result\WheelClassification: final readonly class
+  property readonly Harmony\ColorOrder $order
+  property readonly ?Harmony\WheelPosition $position
+  property readonly ?float $hue
+  property readonly ?float $distance
+  property readonly Provenance\AlgorithmId $wheel
+  method __construct(promoted Harmony\ColorOrder $order, promoted ?Harmony\WheelPosition $position, promoted ?float $hue, promoted ?float $distance, promoted Provenance\AlgorithmId $wheel)
+Harmony\WheelPosition: final readonly class
+  property readonly string $name
+  property readonly float $angle
+  property readonly Harmony\ColorOrder $order
+  method __construct(promoted string $name, promoted float $angle, promoted Harmony\ColorOrder $order)
+Harmony\Wheel\HslHueWheel: final readonly class
+  implements Harmony\Contract\ClassifyingHueWheel
+  implements Harmony\Contract\HueWheel
+  method __construct()
+  method classify(Color $color): Harmony\Result\WheelClassification
+  method colorAt(float $angle, Color $template): Color
+  method hueOf(Color $color): ?float
+  method id(): Provenance\AlgorithmId
+  method positions(): array
+Harmony\Wheel\RybHueWheel: final readonly class
+  implements Harmony\Contract\ClassifyingHueWheel
+  implements Harmony\Contract\HueWheel
+  const CORNERS = ['000' => [1.0, 1.0, 1.0], 100 => [1.0, 0.0, 0.0], '010' => [1.0, 1.0, 0.0], '001' => [0.163, 0.373, 0.6], 110 => [1.0, 0.5, 0.0], 101 => [0.5, 0.0, 0.5], '011' => [0.0, 0.66, 0.2], 111 => [0.2, 0.094, 0.0]]
+  method __construct()
+  method classify(Color $color): Harmony\Result\WheelClassification
+  method colorAt(float $angle, Color $template): Color
+  method hueOf(Color $color): ?float
+  method id(): Provenance\AlgorithmId
+  method positions(): array
+  method static rgb(float $r, float $y, float $b): array
+  method static ringColor(float $angle): array
+Harmony\Wheel\SpaceHueWheel: final readonly class
+  implements Harmony\Contract\HueWheel
+  method __construct(promoted Space\Contract\ColorSpace $space, promoted Provenance\AlgorithmId $id)
+  method colorAt(float $angle, Color $template): Color
+  method hueOf(Color $color): ?float
+  method id(): Provenance\AlgorithmId
+  method space(): Space\Contract\ColorSpace
+Interpolation\ColorMix: final class
+  method static mix(Interpolation\InterpolationMethod $method, array $items): Space\ColorValue
+  method static normalize(array $items): array
+Interpolation\Exception\InvalidInterpolationException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Interpolation\HueInterpolation: enum: string
+  case Shorter = 'shorter'
+  case Longer = 'longer'
+  case Increasing = 'increasing'
+  case Decreasing = 'decreasing'
+  method fixup(float $first, float $second): array
+Interpolation\InterpolationMethod: final readonly class
+  property readonly Space\Contract\ColorSpace $space
+  property readonly Interpolation\HueInterpolation $hue
+  property readonly Space\ConversionOptions $conversion
+  method __construct(promoted Space\Contract\ColorSpace $space, promoted Interpolation\HueInterpolation $hue = Interpolation\HueInterpolation::Shorter, promoted Space\ConversionOptions $conversion = new Space\ConversionOptions())
+  method isPolar(): bool
+  method static oklab(): Interpolation\InterpolationMethod
+Interpolation\MissingComponents: final class
+  method static convert(Space\ColorValue $color, Space\Contract\ColorSpace $target, Space\ConversionOptions $options = new Space\ConversionOptions()): Space\ColorValue
+Interpolation\MixItem: final readonly class
+  property readonly Space\ColorValue $color
+  property readonly ?float $percentage
+  method __construct(promoted Space\ColorValue $color, promoted ?float $percentage = NULL)
+Interpolation\Segment: final readonly class
+  method at(float $progress): Space\ColorValue
+  method static between(Space\ColorValue $start, Space\ColorValue $end, Interpolation\InterpolationMethod $method): Interpolation\Segment
+Math\Angle: final class
+  method static degreesToRadians(float $degrees): float
+  method static distanceDegrees(float $a, float $b): float
+  method static normalizeDegrees(float $degrees): float
+  method static radiansToDegrees(float $radians): float
+  method static signedDifferenceDegrees(float $from, float $to): float
+Math\Exception\InvalidDimensionException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+  method static expected(string $what, string $shape): Math\Exception\InvalidDimensionException
+Math\Exception\InvalidToleranceException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+  method static for(string $bound, float $value): Math\Exception\InvalidToleranceException
+Math\Exception\NonFiniteValueException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+  method static for(string $name, float $value): Math\Exception\NonFiniteValueException
+Math\Exception\OutOfDomainException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+Math\Exception\SingularMatrixException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+  method static withDeterminant(float $determinant, float $threshold): Math\Exception\SingularMatrixException
+Math\Matrix3: final readonly class
+  const SINGULARITY_FACTOR = 64.0
+  method determinant(): float
+  method static diagonal(float $a, float $b, float $c): Math\Matrix3
+  method static fromRows(array $rows): Math\Matrix3
+  method get(int $row, int $column): float
+  method static identity(): Math\Matrix3
+  method inverse(): Math\Matrix3
+  method isCloseTo(Math\Matrix3 $other, Math\Tolerance $tolerance): bool
+  method multiply(Math\Matrix3 $other): Math\Matrix3
+  method toRows(): array
+  method transform(Math\Vector3 $vector): Math\Vector3
+  method transpose(): Math\Matrix3
+Math\Numeric: final class
+  method static assertFinite(float $value, string $name): float
+  method static cbrt(float $x): float
+  method static normalizeZero(float $x): float
+  method static signedPow(float $base, float $exponent): float
+Math\Tolerance: final readonly class
+  property readonly float $absolute
+  property readonly float $relative
+  method static absolute(float $absolute): Math\Tolerance
+  method static exact(): Math\Tolerance
+  method isClose(float $a, float $b): bool
+  method static of(float $absolute, float $relative): Math\Tolerance
+  method static relative(float $relative): Math\Tolerance
+Math\Vector3: final readonly class
+  property readonly float $x
+  property readonly float $y
+  property readonly float $z
+  method __construct(float $x, float $y, float $z)
+  method add(Math\Vector3 $other): Math\Vector3
+  method component(int $index): float
+  method dot(Math\Vector3 $other): float
+  method static fromList(array $values): Math\Vector3
+  method isCloseTo(Math\Vector3 $other, Math\Tolerance $tolerance): bool
+  method length(): float
+  method scale(float $factor): Math\Vector3
+  method subtract(Math\Vector3 $other): Math\Vector3
+  method toList(): array
+  method static zero(): Math\Vector3
+Notation\CssFormat: final readonly class
+  const DEFAULT_FRACTION_DIGITS = 6
+  const MAX_FRACTION_DIGITS = 15
+  property readonly int $fractionDigits
+  method __construct(promoted int $fractionDigits = self::DEFAULT_FRACTION_DIGITS)
+  method number(float $value): string
+Notation\CssNamedColors: final class
+  method static all(): array
+  method static get(string $name): ?array
+  method static has(string $name): bool
+Notation\CssParser: final readonly class
+  method parse(string $css): Space\ColorValue
+Notation\CssSerializer: final readonly class
+  const SRGB_TOLERANCE = 1.0E-6
+  method __construct(promoted Notation\CssFormat $format = new Notation\CssFormat())
+  method serialize(Space\ColorValue $color): string
+Notation\Exception\ColorParseException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+  method __construct(promoted string $input, promoted int $offset, promoted string $expected, string $problem)
+  method getExpected(): string
+  method getInput(): string
+  method getOffset(): int
+Notation\Exception\InvalidColorJsonException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Notation\Exception\InvalidCssFormatException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Notation\Exception\OutOfGamutException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+  method __construct(promoted Space\Contract\ColorSpace $space, promoted array $coordinates, promoted Space\Contract\ColorSpace $targetSpace, string $message)
+  method getCoordinates(): array
+  method getSpace(): Space\Contract\ColorSpace
+  method getTargetSpace(): Space\Contract\ColorSpace
+Notation\Exception\UnresolvableCssColorException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+  method __construct(promoted string $input, promoted string $keyword)
+  method getInput(): string
+  method getKeyword(): string
+Notation\HexNotation: final readonly class
+  const GAMUT_TOLERANCE = 1.0E-6
+  method format(Space\ColorValue $color, bool $alwaysIncludeAlpha = false): string
+  method parse(string $hex): Space\ColorValue
+Notation\JsonNotation: final readonly class
+  const VERSION = 1
+  method __construct(promoted ?Space\ColorSpaceRegistry $registry = NULL)
+  method decode(string $json): Space\ColorValue
+  method encode(Space\ColorValue $color): string
+Operation\Adjuster: final readonly class
+  method rotateHue(Color $color, float $degrees, Operation\HueModel $model): Color
+  method scaleChroma(Color $color, float $scale, Operation\ChromaModel $model): Color
+  method shiftLightness(Color $color, float $by, Operation\LightnessModel $model): Color
+  method withLightness(Color $color, float $value, Operation\LightnessModel $model): Color
+Operation\ChromaModel: enum: string
+  case Oklch = 'oklch'
+  case CieLch = 'cielch'
+  method space(): Space\Contract\ColorSpace
+Operation\CssColorMix: final class
+  method static mix(Space\Contract\ColorSpace $space, Interpolation\HueInterpolation $hue, array ...$items): Color
+Operation\Exception\InvalidOperationException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Operation\Exception\UnsupportedOperationSpaceException: final class
+  extends Exception\DomainException
+  implements Exception\ColorException
+Operation\Gradient: final readonly class
+  property readonly Interpolation\InterpolationMethod $method
+  method at(float $position): Color
+  method in(Space\Contract\ColorSpace $space, Interpolation\HueInterpolation $hue = Interpolation\HueInterpolation::Shorter): Operation\Gradient
+  method static of(Color ...$colors): Operation\Gradient
+  method sample(int $count): array
+  method stops(): array
+  method toCss(?float $angle = NULL, ?Notation\CssFormat $format = NULL): string
+  method withStop(Color $color, float $at): Operation\Gradient
+Operation\GradientStop: final readonly class
+  property readonly Color $color
+  property readonly float $position
+  method __construct(promoted Color $color, promoted float $position)
+Operation\HueModel: enum: string
+  case Oklch = 'oklch'
+  case CieLch = 'cielch'
+  case Hsl = 'hsl'
+  method channel(): int
+  method space(): Space\Contract\ColorSpace
+Operation\LightnessModel: enum: string
+  case OklchL = 'oklch-l'
+  case CieLabL = 'cielab-l'
+  case HslL = 'hsl-l'
+  method channel(): int
+  method maximum(): float
+  method space(): Space\Contract\ColorSpace
+Operation\Mixer: final readonly class
+  property readonly Interpolation\InterpolationMethod $method
+  method __construct(?Space\Contract\ColorSpace $space = NULL, Interpolation\HueInterpolation $hue = Interpolation\HueInterpolation::Shorter)
+  method mix(Color $a, Color $b, float $weight = 0.5): Color
+  method mixMany(array $items): Color
+Operation\Quantizer: final readonly class
+  const MIN_BITS = 1
+  const MAX_BITS = 16
+  property readonly Space\Contract\ColorSpace $space
+  property readonly int $bits
+  method __construct(promoted int $bits = 8, ?Space\Contract\ColorSpace $space = NULL)
+  method quantize(Color $color): Operation\Result\QuantizedColor
+Operation\Result\QuantizedColor: final readonly class
+  property readonly array $codes
+  property readonly int $alphaCode
+  property readonly int $bits
+  property readonly Color $color
+  method __construct(promoted array $codes, promoted int $alphaCode, promoted int $bits, promoted Color $color)
+  method maxCode(): int
+Operation\TintShadeTone: final readonly class
+  method __construct(Space\Contract\ColorSpace $space, Interpolation\HueInterpolation $hue = Interpolation\HueInterpolation::Shorter)
+  method shade(Color $color, float $amount): Color
+  method tint(Color $color, float $amount): Color
+  method tone(Color $color, float $amount, ?Color $gray = NULL): Color
+Palette\Catalog\Catalog: final readonly class
+  implements Palette\Contract\ColorCatalog
+  method entries(): array
+  method id(): string
+  method nearest(Color $color, Difference\Contract\ColorDifferenceMetric $metric): Palette\Catalog\NearestMatch
+  method static of(string $id, array $colors): Palette\Catalog\Catalog
+  method rank(Color $color, Difference\Contract\ColorDifferenceMetric $metric, int $limit = 5): array
+Palette\Catalog\CatalogEntry: final readonly class
+  property readonly string $name
+  property readonly Color $color
+  method __construct(promoted string $name, promoted Color $color)
+Palette\Catalog\NearestMatch: final readonly class
+  property readonly Palette\Catalog\CatalogEntry $entry
+  property readonly Difference\Result\ColorDifference $difference
+  method __construct(promoted Palette\Catalog\CatalogEntry $entry, promoted Difference\Result\ColorDifference $difference)
+Palette\Catalogs: final class
+  method static cssNamed(): Palette\Catalog\Catalog
+Palette\Contract\ColorCatalog: interface
+  method entries(): array
+  method id(): string
+Palette\Contract\ScaleGenerator: interface
+  method generate(Color $base, ?Gamut\Contract\GamutMapper $mapper = NULL, ?Space\Contract\ColorSpace $gamut = NULL): Palette\Result\GeneratedScale
+Palette\Exception\InvalidPaletteException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Palette\Palette: final readonly class
+  implements Countable
+  method colors(): array
+  method count(): int
+  method entries(): array
+  method static fromEntries(array $entries): Palette\Palette
+  method get(string|int $key): Color
+  method indexOf(string|int $key): int
+  method static named(array $colors): Palette\Palette
+  method static of(Color ...$colors): Palette\Palette
+  method with(Color $color, ?string $name = NULL): Palette\Palette
+  method withNames(array $names): Palette\Palette
+Palette\PaletteAnalyzer: final readonly class
+  method __construct(promoted Difference\Contract\ColorDifferenceMetric $metric)
+  method analyze(Palette\Palette $palette): Palette\Result\PaletteAnalysis
+Palette\PaletteEntry: final readonly class
+  property readonly Color $color
+  property readonly ?string $name
+  method __construct(promoted Color $color, promoted ?string $name = NULL)
+Palette\Result\GeneratedScale: final readonly class
+  property readonly Palette\Palette $palette
+  property readonly array $mapping
+  method __construct(promoted Palette\Palette $palette, promoted array $mapping)
+  method mappedSteps(): array
+Palette\Result\PairDifference: final readonly class
+  property readonly int $first
+  property readonly int $second
+  property readonly Difference\Result\ColorDifference $difference
+  method __construct(promoted int $first, promoted int $second, promoted Difference\Result\ColorDifference $difference)
+Palette\Result\PaletteAnalysis: final readonly class
+  property readonly Palette\Palette $palette
+  property readonly Provenance\AlgorithmId $metric
+  property readonly array $differences
+  property readonly ?Palette\Result\PairDifference $minDifference
+  property readonly ?Palette\Result\PairDifference $maxDifference
+  property readonly array $nearest
+  method __construct(promoted Palette\Palette $palette, promoted Provenance\AlgorithmId $metric, promoted array $differences, promoted ?Palette\Result\PairDifference $minDifference, promoted ?Palette\Result\PairDifference $maxDifference, promoted array $nearest)
+  method contrastMatrix(Contrast\Contract\ContrastAlgorithm $algorithm): array
+Palette\Scale\LightnessScale: final readonly class
+  implements Palette\Contract\ScaleGenerator
+  method __construct(promoted Space\Contract\ColorSpace $space, promoted array $lightness)
+  method generate(Color $base, ?Gamut\Contract\GamutMapper $mapper = NULL, ?Space\Contract\ColorSpace $gamut = NULL): Palette\Result\GeneratedScale
+Palette\Scale\MixKind: enum: string
+  case Tint = 'tint'
+  case Shade = 'shade'
+  case Tone = 'tone'
+Palette\Scale\MixScale: final readonly class
+  implements Palette\Contract\ScaleGenerator
+  method __construct(promoted Palette\Scale\MixKind $kind, Space\Contract\ColorSpace $space, promoted int $steps, promoted ?Color $gray = NULL)
+  method generate(Color $base, ?Gamut\Contract\GamutMapper $mapper = NULL, ?Space\Contract\ColorSpace $gamut = NULL): Palette\Result\GeneratedScale
+Palette\Scales: final class
+  method static lightnessSteps(Space\Contract\ColorSpace $space, array $lightness): Palette\Scale\LightnessScale
+  method static shades(Space\Contract\ColorSpace $space, int $steps): Palette\Scale\MixScale
+  method static tints(Space\Contract\ColorSpace $space, int $steps): Palette\Scale\MixScale
+  method static tones(Space\Contract\ColorSpace $space, int $steps, ?Color $gray = NULL): Palette\Scale\MixScale
+Provenance\AlgorithmId: final readonly class
+  property readonly string $name
+  property readonly int $revision
+  property readonly array $sources
+  property readonly ?string $variant
+  method __construct(promoted string $name, promoted int $revision = 1, promoted array $sources = [], promoted ?string $variant = NULL)
+  method equals(Provenance\AlgorithmId $other): bool
+  method identifier(): string
+Provenance\Assumption: final readonly class
+  property readonly string $code
+  property readonly string $description
+  method __construct(promoted string $code, promoted string $description)
+Provenance\Diagnostics: final readonly class
+  property readonly array $assumptions
+  property readonly array $warnings
+  method hasWarning(Provenance\WarningCode $code): bool
+  method hasWarnings(): bool
+  method isEmpty(): bool
+  method merge(Provenance\Diagnostics $other): Provenance\Diagnostics
+  method static none(): Provenance\Diagnostics
+  method static of(array $assumptions = [], array $warnings = []): Provenance\Diagnostics
+  method withAssumption(Provenance\Assumption $assumption): Provenance\Diagnostics
+  method withWarning(Provenance\Warning $warning): Provenance\Diagnostics
+Provenance\Exception\InvalidProvenanceException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Provenance\SourceKind: enum: string
+  case Standard = 'standard'
+  case Specification = 'specification'
+  case Paper = 'paper'
+  case DesignSystem = 'design-system'
+  case Library = 'library-heuristic'
+  case UserDefined = 'user-defined'
+Provenance\SourceReference: final readonly class
+  property readonly string $title
+  property readonly Provenance\SourceKind $kind
+  property readonly ?string $edition
+  property readonly ?string $section
+  property readonly ?string $url
+  method __construct(promoted string $title, promoted Provenance\SourceKind $kind, promoted ?string $edition = NULL, promoted ?string $section = NULL, promoted ?string $url = NULL)
+  method static userDefined(string $title): Provenance\SourceReference
+Provenance\Warning: final readonly class
+  property readonly Provenance\WarningCode $code
+  property readonly string $message
+  property readonly array $context
+  method __construct(promoted Provenance\WarningCode $code, promoted string $message, promoted array $context = [])
+Provenance\WarningCode: enum: string
+  case AlphaIgnored = 'alpha-ignored'
+  case HueUndefined = 'hue-undefined'
+  method description(): string
+Space\Channel: final readonly class
+  property readonly string $name
+  property readonly string $label
+  property readonly Space\ChannelKind $kind
+  property readonly float $referenceMin
+  property readonly float $referenceMax
+  property readonly ?Space\ComponentCategory $category
+  method __construct(promoted string $name, promoted string $label, promoted Space\ChannelKind $kind, promoted float $referenceMin, promoted float $referenceMax, promoted ?Space\ComponentCategory $category = NULL)
+  method isHue(): bool
+Space\ChannelKind: enum: string
+  case Number = 'number'
+  case Hue = 'hue'
+  case Percentage = 'percentage'
+Space\ColorSpaceRegistry: final readonly class
+  method all(): array
+  method static default(): Space\ColorSpaceRegistry
+  method static empty(): Space\ColorSpaceRegistry
+  method get(string $id): Space\Contract\ColorSpace
+  method has(string $id): bool
+  method with(Space\Contract\ColorSpace $space): Space\ColorSpaceRegistry
+Space\ColorSpaces: final class
+  method static a98Rgb(): Space\Definition\RgbSpace
+  method static a98RgbLinear(): Space\Definition\LinearRgbSpace
+  method static all(): array
+  method static displayP3(): Space\Definition\RgbSpace
+  method static displayP3Linear(): Space\Definition\LinearRgbSpace
+  method static hsl(): Space\Definition\HslSpace
+  method static hsv(): Space\Definition\HsvSpace
+  method static hwb(): Space\Definition\HwbSpace
+  method static lab(): Space\Definition\LabSpace
+  method static labD65(): Space\Definition\LabSpace
+  method static lch(): Space\Definition\PolarSpace
+  method static lchD65(): Space\Definition\PolarSpace
+  method static oklab(): Space\Definition\OklabSpace
+  method static oklch(): Space\Definition\PolarSpace
+  method static prophotoRgb(): Space\Definition\RgbSpace
+  method static prophotoRgbLinear(): Space\Definition\LinearRgbSpace
+  method static rec2020(): Space\Definition\RgbSpace
+  method static rec2020Linear(): Space\Definition\LinearRgbSpace
+  method static srgb(): Space\Definition\RgbSpace
+  method static srgbLinear(): Space\Definition\LinearRgbSpace
+  method static xyzD50(): Space\Definition\XyzSpace
+  method static xyzD65(): Space\Definition\XyzSpace
+Space\ColorValue: final readonly class
+  property readonly array $coordinates
+  property readonly Space\Contract\ColorSpace $space
+  property readonly ?float $alpha
+  method __construct(promoted Space\Contract\ColorSpace $space, array $coordinates, promoted ?float $alpha = 1.0)
+  method hasMissingComponents(): bool
+Space\ComponentCategory: enum: string
+  case Reds = 'reds'
+  case Greens = 'greens'
+  case Blues = 'blues'
+  case Lightness = 'lightness'
+  case Colorfulness = 'colorfulness'
+  case Hue = 'hue'
+  case OpponentA = 'opponent-a'
+  case OpponentB = 'opponent-b'
+Space\Contract\ColorSpace: interface
+  method base(): ?Space\Contract\ColorSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): ?Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\ConversionOptions: final readonly class
+  property readonly Colorimetry\Contract\ChromaticAdaptationTransform $adaptation
+  method __construct(promoted Colorimetry\Contract\ChromaticAdaptationTransform $adaptation = new Colorimetry\Algorithm\Bradford())
+Space\Converter: final readonly class
+  method __construct(promoted Space\ConversionOptions $options = new Space\ConversionOptions())
+  method convert(Space\Contract\ColorSpace $from, Space\Contract\ColorSpace $to, array $coordinates): array
+Space\Definition\HslSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  const POWERLESS_EPSILON = 0.001
+  method __construct(promoted Space\Definition\RgbSpace $rgb, ?string $id = NULL)
+  method base(): Space\Definition\RgbSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\HsvSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  const POWERLESS_CHROMA_EPSILON = 0.001
+  method __construct(promoted Space\Definition\RgbSpace $rgb, ?string $id = NULL)
+  method base(): Space\Definition\RgbSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\HwbSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  const POWERLESS_THRESHOLD = 99.999
+  method __construct(promoted Space\Definition\RgbSpace $rgb, ?string $id = NULL)
+  method base(): Space\Definition\RgbSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\LabSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  const EPSILON = 0.008856451679035631
+  const KAPPA = 903.2962962962963
+  method __construct(string $id, string $name, promoted Space\Definition\XyzSpace $xyz)
+  method base(): Space\Definition\XyzSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): ?Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\LinearRgbSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  property readonly Colorimetry\RgbPrimaries $primaries
+  method __construct(string $id, string $name, promoted Colorimetry\RgbPrimaries $primaries, promoted Space\Definition\XyzSpace $xyz)
+  method base(): Space\Definition\XyzSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method toXyzMatrix(): Math\Matrix3
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\OklabSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  method __construct(promoted Space\Definition\XyzSpace $xyz, string $id = 'oklab')
+  method base(): Space\Definition\XyzSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): ?Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\PolarSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  property readonly float $powerlessEpsilon
+  method __construct(string $id, string $name, promoted Space\Contract\ColorSpace $opponent, promoted float $powerlessEpsilon, promoted float $chromaReference)
+  method base(): Space\Contract\ColorSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): ?Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\RgbSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  property readonly Colorimetry\Contract\TransferFunction $transfer
+  method __construct(string $id, string $name, promoted Colorimetry\Contract\TransferFunction $transfer, promoted Space\Definition\LinearRgbSpace $linear)
+  method base(): Space\Definition\LinearRgbSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method static fromPrimaries(string $id, string $name, Colorimetry\RgbPrimaries $primaries, Space\Definition\XyzSpace $xyz, Colorimetry\Contract\TransferFunction $transfer): Space\Definition\RgbSpace
+  method gamutSpace(): Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Definition\XyzSpace: final readonly class
+  implements Space\Contract\ColorSpace
+  method __construct(string $id, string $name, promoted Colorimetry\WhitePoint $white)
+  method base(): ?Space\Contract\ColorSpace
+  method channels(): array
+  method fromBase(array $coordinates): array
+  method gamutSpace(): ?Space\Contract\ColorSpace
+  method id(): string
+  method name(): string
+  method toBase(array $coordinates): array
+  method whitePoint(): Colorimetry\WhitePoint
+Space\Exception\DuplicateColorSpaceException: final class
+  extends Exception\ConfigurationException
+  implements Exception\ColorException
+  method static forId(string $id): Space\Exception\DuplicateColorSpaceException
+Space\Exception\InvalidColorSpaceDefinitionException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Space\Exception\InvalidColorValueException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+Space\Exception\UnknownChannelException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+  method static in(string $spaceId, string|int $channel): Space\Exception\UnknownChannelException
+Space\Exception\UnknownColorSpaceException: final class
+  extends Exception\InvalidArgumentException
+  implements Exception\ColorException
+  method static forId(string $id): Space\Exception\UnknownColorSpaceException
+Space\Record\CoordinateRecord: interface
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+Space\Record\DisplayP3: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $r
+  property readonly float $g
+  property readonly float $b
+  property readonly float $alpha
+  method __construct(float $r, float $g, float $b, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withB(float $b): static
+  method withG(float $g): static
+  method withR(float $r): static
+Space\Record\Hsl: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly ?float $h
+  property readonly float $s
+  property readonly float $l
+  property readonly float $alpha
+  method __construct(?float $h, float $s, float $l, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withH(?float $h): static
+  method withL(float $l): static
+  method withS(float $s): static
+Space\Record\Hsv: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly ?float $h
+  property readonly float $s
+  property readonly float $v
+  property readonly float $alpha
+  method __construct(?float $h, float $s, float $v, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withH(?float $h): static
+  method withS(float $s): static
+  method withV(float $v): static
+Space\Record\Hwb: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly ?float $h
+  property readonly float $w
+  property readonly float $b
+  property readonly float $alpha
+  method __construct(?float $h, float $w, float $b, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withB(float $b): static
+  method withH(?float $h): static
+  method withW(float $w): static
+Space\Record\Lab: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $l
+  property readonly float $a
+  property readonly float $b
+  property readonly float $alpha
+  method __construct(float $l, float $a, float $b, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withA(float $a): static
+  method withAlpha(float $alpha): static
+  method withB(float $b): static
+  method withL(float $l): static
+Space\Record\Lch: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $l
+  property readonly float $c
+  property readonly ?float $h
+  property readonly float $alpha
+  method __construct(float $l, float $c, ?float $h, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withC(float $c): static
+  method withH(?float $h): static
+  method withL(float $l): static
+Space\Record\Oklab: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $l
+  property readonly float $a
+  property readonly float $b
+  property readonly float $alpha
+  method __construct(float $l, float $a, float $b, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withA(float $a): static
+  method withAlpha(float $alpha): static
+  method withB(float $b): static
+  method withL(float $l): static
+Space\Record\Oklch: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $l
+  property readonly float $c
+  property readonly ?float $h
+  property readonly float $alpha
+  method __construct(float $l, float $c, ?float $h, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withC(float $c): static
+  method withH(?float $h): static
+  method withL(float $l): static
+Space\Record\Rgb: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $r
+  property readonly float $g
+  property readonly float $b
+  property readonly float $alpha
+  method __construct(float $r, float $g, float $b, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withB(float $b): static
+  method withG(float $g): static
+  method withR(float $r): static
+Space\Record\Rgb255: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $r
+  property readonly float $g
+  property readonly float $b
+  property readonly float $alpha
+  method __construct(float $r, float $g, float $b, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withB(float $b): static
+  method withG(float $g): static
+  method withR(float $r): static
+Space\Record\Xyz: final readonly class
+  implements Space\Record\CoordinateRecord
+  property readonly float $x
+  property readonly float $y
+  property readonly float $z
+  property readonly float $alpha
+  method __construct(float $x, float $y, float $z, float $alpha = 1.0)
+  method alpha(): float
+  method coordinates(): array
+  method static fromCoordinates(array $coordinates, float $alpha): static
+  method static space(): Space\Contract\ColorSpace
+  method withAlpha(float $alpha): static
+  method withX(float $x): static
+  method withY(float $y): static
+  method withZ(float $z): static

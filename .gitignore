@@ -1,0 +1,9 @@
+/vendor/
+# Libraries do not commit their lock file; CI tests both lowest and highest dependencies.
+/composer.lock
+/.phpunit.cache/
+/.phpstan.cache/
+/.php-cs-fixer.cache
+
+# Local working notes, not part of the repository.
+/docs/

@@ -1,0 +1,9 @@
+#3366cc  luminance 0.146  white text   5.37:1  ok for body text
+#ffcc00  luminance 0.644  black text  13.89:1  ok for body text
+#1a1a1a  luminance 0.010  white text  17.40:1  ok for body text
+#e0e0e0  luminance 0.745  black text  15.91:1  ok for body text
+#916300  luminance 0.149  white text   5.26:1  ok for body text
+#777777  luminance 0.184  black text   4.69:1  ok for body text
+
+#777777 on white: 4.4781:1 (fails 4.5)
+#767676 on white: 4.5422:1 (passes)

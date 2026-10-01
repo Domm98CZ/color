@@ -1,0 +1,77 @@
+{
+ "meta": {
+  "id": "css-color-4-gamut-mapping-examples",
+  "source": "CSS Color Module Level 4, examples in § 14.1.1, § 14.1.3 and § 14.2 (gamut mapping)",
+  "edition": "W3C Candidate Recommendation Draft, 26 September 2026",
+  "url": "https://www.w3.org/TR/css-color-4/",
+  "retrieved": "2026-09-28",
+  "license": "W3C Software and Document License (examples transcribed from the specification text)",
+  "notes": "The § 14.2 examples say 'such as': they are illustrative results of the algorithm, printed with 3 decimals. The § 14.1.3 example is a chroma-reduction run whose search precision is not stated.",
+  "tolerance": {
+   "abs": 0.0005,
+   "rationale": "The examples are printed with 3 to 5 decimal places (rounding error ≤ 5e-4); the binary searches stop at ε = 1e-4 in OKLCh chroma, which moves the RGB result by about 1e-4 per channel."
+  }
+ },
+ "cases": [
+  {
+   "section": "14.2",
+   "mapper": "css-color-4-binary-search-local-minde",
+   "input": "color(display-p3 1.1 0.4 0.2)",
+   "destination": "display-p3",
+   "expected": [
+    1.0,
+    0.473,
+    0.314
+   ],
+   "note": "'gamut mapping will produce a similar, but lower chroma, color, such as color(display-p3 1 0.473 0.314)'"
+  },
+  {
+   "section": "14.2",
+   "mapper": "css-color-4-binary-search-local-minde",
+   "input": "oklch(76% 0.27 60)",
+   "destination": "display-p3",
+   "expected": [
+    1.0,
+    0.546,
+    0.0
+   ],
+   "note": "'such as color(display-p3 1 0.546 0)'"
+  },
+  {
+   "section": "14.1.3",
+   "mapper": "oklch-chroma-reduction",
+   "input": "color(display-p3 1 1 0)",
+   "destination": "srgb",
+   "expected": [
+    0.99116,
+    0.99733,
+    1e-05
+   ],
+   "note": "chroma reduced from 0.24503 to 0.21094 at OKLCh L 0.96476, h 110.23"
+  },
+  {
+   "section": "14.1.1",
+   "mapper": "clip",
+   "input": "color(display-p3 0.3265 0.9165 -0.1262)",
+   "destination": "display-p3",
+   "expected": [
+    0.3265,
+    0.9165,
+    0.0
+   ],
+   "note": "clipping the gamma-encoded p3 color"
+  },
+  {
+   "section": "14.1.1",
+   "mapper": "clip",
+   "input": "color(display-p3 -0.5782 1.067 -0.2363)",
+   "destination": "display-p3",
+   "expected": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "note": "clipping the gamma-encoded p3 color"
+  }
+ ]
+}
